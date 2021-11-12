@@ -8,8 +8,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrapper();
+    return MaterialApp(
+      theme: ThemeData(fontFamily: 'ZenAntique'),
+      home: Wrapper(),
+    );
   }
 }
-
-
