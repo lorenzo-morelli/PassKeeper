@@ -9,7 +9,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(fontFamily: 'ZenAntique'),
+      theme: ThemeData(
+          fontFamily: 'ZenAntique',
+          highlightColor: Colors.white,
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Colors.black87,
+        ),
+      ),
       home: Wrapper(),
     );
   }

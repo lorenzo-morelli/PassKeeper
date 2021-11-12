@@ -10,7 +10,7 @@ class Home extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          SizedBox(height: 80),
+          SizedBox(height: 85),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: const [
@@ -33,18 +33,14 @@ class Home extends StatelessWidget {
                       Center(
                         child: Text(
                           'PassKeeper.',
-                          style: TextStyle(
-                            fontSize: 35,
-                          ),
+                          style: TextStyle(fontSize: 35),
                         ),
                       ),
                       SizedBox(height: 70),
                       Center(
                         child: Text(
                           'A safe place to store all',
-                          style: TextStyle(
-                            fontSize: 19,
-                          ),
+                          style: TextStyle(fontSize: 19),
                         ),
                       ),
                       Center(
@@ -75,8 +71,15 @@ class Home extends StatelessWidget {
           SizedBox(height: 50),
           Expanded(
             child: AccountList(),
-          )
+          ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        tooltip: 'Add new account',
+        child: const Icon(
+          Icons.add,
+        ),
       ),
     );
   }

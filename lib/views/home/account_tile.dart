@@ -8,18 +8,18 @@ class AccountTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 8),
+      padding: EdgeInsets.symmetric(horizontal: 30),
       child: Card(
-        margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
+        margin: EdgeInsets.only(bottom: 15),
         child: ListTile(
-          contentPadding: EdgeInsets.only(bottom: 0),
+          isThreeLine: true,
           leading: CircleAvatar(
             radius: 25.0,
-            backgroundColor: Colors.purple,
+            backgroundColor: account.color,
           ),
-          title: Text(account.site),
+          title: Text(account.site, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400)),
           subtitle: Text('Username: ${account.username}\nPassword: ${account.password}'),
-          trailing: Icon(Icons.settings),
+          trailing: Icon(Icons.settings, color: Colors.black54),
         ),
       ),
     );
