@@ -10,12 +10,13 @@ class AccountList extends StatefulWidget {
 }
 
 class _AccountListState extends State<AccountList> {
+  final accounts = <Account>[
+    Account('facebook', 'morel', 'pass'),
+    Account('instagram', 'andre', 'ciao'),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    final accounts = <Account>[
-      Account('facebook', 'morel', 'pass'),
-      Account('instagram', 'andre', 'ciao'),
-    ]; // TODO
 
     return ListView.builder(
       itemCount: accounts.length,

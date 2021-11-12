@@ -1,8 +1,30 @@
 import 'package:flutter/material.dart';
-import 'account_list.dart';
+import 'package:passkeeper/models/account.dart';
+import 'package:passkeeper/widgets/search_widget.dart';
 
-class Home extends StatelessWidget {
+import 'account_tile.dart';
+
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  late List<Account> accounts;
+  String query = '';
+
+  final allAccounts = <Account>[
+    Account('facebook', 'morel', 'pass'),
+    Account('instagram', 'andre', 'ciao'),
+  ]; // TODO
+
+  @override
+  void initState() {
+    super.initState();
+    accounts = allAccounts;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,19 +90,42 @@ class Home extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 50),
+          SizedBox(height: 30),
+          SearchWidget(
+            text: query,
+            onChanged: searchAccount,
+            hintText: 'Text',
+          ),
           Expanded(
-            child: AccountList(),
+            child: accounts.isNotEmpty ? ListView.builder(
+              padding: EdgeInsets.only(top: 10),
+              itemCount: accounts.length,
+              itemBuilder: (context, index) {
+                return AccountTile(account: accounts[index]);
+              },
+            ) : Text('Nessun risultato trovato'),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         tooltip: 'Add new account',
-        child: const Icon(
-          Icons.add,
-        ),
+        child: const Icon(Icons.add),
       ),
     );
+  }
+
+  void searchAccount(String query) {
+    final accounts = allAccounts.where((account) {
+      final siteLower = account.site.toLowerCase();
+      final searchLower = query.toLowerCase();
+
+      return siteLower.contains(searchLower);
+    }).toList();
+
+    setState(() {
+      this.query = query;
+      this.accounts = accounts;
+    });
   }
 }
