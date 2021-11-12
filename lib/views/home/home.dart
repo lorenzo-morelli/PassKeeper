@@ -6,7 +6,6 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Column(
@@ -59,7 +58,8 @@ class Home extends StatelessWidget {
                               TextSpan(text: 'your '),
                               TextSpan(
                                 text: 'passwords',
-                                style: TextStyle(decoration: TextDecoration.lineThrough),
+                                style: TextStyle(
+                                    decoration: TextDecoration.lineThrough),
                               ),
                               TextSpan(text: '.'),
                             ],
