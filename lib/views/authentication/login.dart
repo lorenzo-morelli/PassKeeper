@@ -88,6 +88,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
+                Text('METTERE A POSTO I PULSANTI COME REGISTER!'),
                 SizedBox(height: 130),
                 Text("Haven't an account yet?", style: TextStyle(fontSize: 16)),
                 TextButton(
