@@ -35,6 +35,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_svg: ^0.23.0+1
+  flutter_colorpicker: ^1.0.1
 
 dev_dependencies:
   flutter_test:
@@ -62,9 +63,9 @@ flutter:
     - assets/images/home.png
 
   fonts:
-    - family: ZenAntique
+    - family: Butler
       fonts:
-        - asset: assets/fonts/ZenAntique-Regular.ttf
+        - asset: assets/fonts/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
