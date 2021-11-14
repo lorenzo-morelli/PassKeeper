@@ -4,8 +4,14 @@ import 'package:passkeeper/shared/constants.dart';
 import 'package:passkeeper/views/home/settings_form.dart';
 
 class AccountTile extends StatelessWidget {
-  const AccountTile({Key? key, required this.account}) : super(key: key);
+  const AccountTile({Key? key, required this.account, required this.index}) : super(key: key);
   final Account account;
+  final int index;
+
+  static List<Account> allAccounts = <Account>[
+    Account('facebook', 'morel', 'pass'),
+    Account.withColor('instagram', 'andre', 'ciao', Colors.red),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +51,7 @@ class AccountTile extends StatelessWidget {
                     //backgroundColor: Colors.transparent,
                     context: context,
                     builder: (context) {
-                      return SettingsForm();
+                      return SettingsForm(index: index);
                     }),
               ),
             ],

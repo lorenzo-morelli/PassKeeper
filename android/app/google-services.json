@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1046968530723",
+    "project_id": "passkeeper-morelli",
+    "storage_bucket": "passkeeper-morelli.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1046968530723:android:4cbc6b5c935317887e3e96",
+        "android_client_info": {
+          "package_name": "com.lorenzomorelli.passkeeper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1046968530723-3s5dgleuc0nikn01lvqm8p3l2fv5c3vo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9sgQ1p9q5sJPaHKSlDzPL33Acsuw_G3k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1046968530723-3s5dgleuc0nikn01lvqm8p3l2fv5c3vo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

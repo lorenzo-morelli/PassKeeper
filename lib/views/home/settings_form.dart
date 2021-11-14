@@ -4,15 +4,18 @@ import 'package:passkeeper/models/account.dart';
 import 'package:passkeeper/shared/constants.dart';
 
 class SettingsForm extends StatefulWidget {
-  const SettingsForm({Key? key}) : super(key: key);
+  const SettingsForm({Key? key, required this.index}) : super(key: key);
+  final int index;
 
   @override
-  _SettingsFormState createState() => _SettingsFormState();
+  _SettingsFormState createState() => _SettingsFormState(index: index);
 }
 
 class _SettingsFormState extends State<SettingsForm> {
+  _SettingsFormState({required this.index});
   final _formKey = GlobalKey<FormState>();
   final controller = TextEditingController();
+  final int index;
   final allAccounts = <Account>[
     Account('facebook', 'morel', 'pass'),
     Account('instagram', 'andre', 'ciao'),
@@ -59,7 +62,7 @@ class _SettingsFormState extends State<SettingsForm> {
                 Container(
                   alignment: Alignment.topCenter,
                   child: Text(
-                    'Update settings for ${allAccounts[0].site}.',
+                    'Update settings for ${allAccounts[index].site}.',
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -106,20 +109,21 @@ class _SettingsFormState extends State<SettingsForm> {
                   ),
                 ),
                 //SizedBox(height: 35),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 30),
-                  decoration: BoxDecoration(
-                    color: Colors.black87,
-                    borderRadius:
-                        BorderRadius.all(Radius.circular(Constants.cornRad)),
-                  ),
-                  child: TextButton(
-                    child: Text(
-                      'Update',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                TextButton(
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(horizontal: 30, vertical: 10)),
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.black87),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(Constants.cornRad),
+                      ),
                     ),
-                    onPressed: () {},
                   ),
+                  child: Text(
+                    'Update',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                  onPressed: () {},
                 ),
               ],
             ),

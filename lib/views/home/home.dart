@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:passkeeper/models/account.dart';
+import 'package:passkeeper/services/auth.dart';
 import 'package:passkeeper/shared/constants.dart';
 import 'package:passkeeper/widgets/search_widget.dart';
 
@@ -15,6 +16,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late List<Account> accounts;
+  final AuthService _auth = AuthService();
   String query = '';
   final _formKey = GlobalKey<FormState>();
   final allAccounts = <Account>[
@@ -54,28 +56,28 @@ class _HomeState extends State<Home> {
       body: Column(
         children: [
           SizedBox(height: 50),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              GestureDetector(
-                child: Icon(Icons.person),
-                onTap: () {},
-              ),
-              SizedBox(width: 10),
-              GestureDetector(
-                child: Icon(Icons.settings),
-                onTap: () {},
-              ),
-              SizedBox(width: 15),
-            ],
+          Container(
+            alignment: Alignment.bottomRight,
+            child: PopupMenuButton<int>(
+              onSelected: (item) => dropDown(context, item),
+              icon: Icon(Icons.settings),
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 0,
+                  child: Text('Settings'),
+                ),
+                PopupMenuItem(
+                  value: 1,
+                  child: Text('Logout'),
+                ),
+              ],
+            ),
           ),
+          SizedBox(width: 15),
           SizedBox(height: 25),
           Stack(
             children: [
-              AspectRatio(
-                  aspectRatio: 2.48,
-                  child:
-                      Image.asset('assets/images/home.png', fit: BoxFit.cover)),
+              AspectRatio(aspectRatio: 2.48, child: Image.asset('assets/images/home.png', fit: BoxFit.cover)),
               Column(
                 children: [
                   SizedBox(height: 35),
@@ -98,17 +100,12 @@ class _HomeState extends State<Home> {
                       Center(
                         child: RichText(
                           text: TextSpan(
-                            style: TextStyle(
-                                fontFamily: 'GentiumBook',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black,
-                                fontSize: 19),
+                            style: TextStyle(fontFamily: 'GentiumBook', fontWeight: FontWeight.w600, color: Colors.black, fontSize: 19),
                             children: const [
                               TextSpan(text: 'your '),
                               TextSpan(
                                 text: 'passwords',
-                                style: TextStyle(
-                                    decoration: TextDecoration.lineThrough),
+                                style: TextStyle(decoration: TextDecoration.lineThrough),
                               ),
                               TextSpan(text: '.'),
                             ],
@@ -133,7 +130,7 @@ class _HomeState extends State<Home> {
                     padding: EdgeInsets.only(top: 10),
                     itemCount: accounts.length,
                     itemBuilder: (context, index) {
-                      return AccountTile(account: accounts[index]);
+                      return AccountTile(account: accounts[index], index: index);
                     },
                   )
                 : Text('Nothing found :('),
@@ -180,8 +177,7 @@ class _HomeState extends State<Home> {
                 children: [
                   TextFormField(
                     decoration: Constants.textInputDecoration,
-                    validator: (val) =>
-                        val!.isEmpty ? 'Please enter a site' : null,
+                    validator: (val) => val!.isEmpty ? 'Please enter a site' : null,
                     onChanged: (val) => {},
                   ),
                   SizedBox(height: 10.0),
@@ -189,8 +185,7 @@ class _HomeState extends State<Home> {
                     decoration: Constants.textInputDecoration.copyWith(
                       hintText: 'username',
                     ),
-                    validator: (val) =>
-                        val!.isEmpty ? 'Please enter a username' : null,
+                    validator: (val) => val!.isEmpty ? 'Please enter a username' : null,
                     onChanged: (val) => {},
                   ),
                   SizedBox(height: 10.0),
@@ -198,8 +193,7 @@ class _HomeState extends State<Home> {
                     decoration: Constants.textInputDecoration.copyWith(
                       hintText: 'password',
                     ),
-                    validator: (val) =>
-                        val!.isEmpty ? 'Please enter a password' : null,
+                    validator: (val) => val!.isEmpty ? 'Please enter a password' : null,
                     onChanged: (val) => {},
                   ),
                   SizedBox(height: 30),
@@ -221,8 +215,7 @@ class _HomeState extends State<Home> {
                       GestureDetector(
                         child: Text(
                           'Cancel',
-                          style:
-                              TextStyle(decoration: TextDecoration.underline),
+                          style: TextStyle(decoration: TextDecoration.underline),
                         ),
                         onTap: () => Navigator.of(context).pop(),
                       ),
@@ -230,8 +223,7 @@ class _HomeState extends State<Home> {
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.black87,
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(Constants.cornRad)),
+                          borderRadius: BorderRadius.all(Radius.circular(Constants.cornRad)),
                         ),
                         child: TextButton(
                           child: Text(
@@ -249,4 +241,39 @@ class _HomeState extends State<Home> {
               ),
             ),
           ));
+
+  void dropDown(BuildContext context, int item) {
+    switch (item) {
+      case 1:
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(Constants.cornRad)),
+            ),
+            title: Text(
+              'Are you sure?',
+              textAlign: TextAlign.center,
+            ),
+            content: Row(
+              children: [
+                TextButton(
+                  child: Text('Yes'),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    await _auth.signOut();
+                  },
+                ),
+                TextButton(
+                  child: Text('No'),
+                  onPressed: Navigator.of(context).pop,
+                ),
+              ],
+            ),
+          ),
+        );
+        break;
+    }
+  }
 }

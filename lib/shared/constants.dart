@@ -23,4 +23,12 @@ class Constants {
       icon: Icon(Icons.close, color: Colors.grey),
     ),
   );
+
+  static ThemeData theme = ThemeData(
+    fontFamily: 'GentiumBook',
+    highlightColor: Colors.white,
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: Colors.black87,
+    ),
+  );
 }

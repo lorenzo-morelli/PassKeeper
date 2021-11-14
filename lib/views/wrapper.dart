@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:passkeeper/models/my_user.dart';
 import 'package:passkeeper/views/authentication/authenticate.dart';
-import 'package:passkeeper/views/authentication/login.dart';
+import 'package:provider/provider.dart';
 import 'home/home.dart';
 
 class Wrapper extends StatelessWidget {
@@ -8,6 +9,7 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return false ? Home() : Authenticate(); // decides to go to Home() or Login()
+    final user = Provider.of<MyUser?>(context);
+    return user == null ? Authenticate() : Home(); // decides to go to Home() or Login()
   }
 }
