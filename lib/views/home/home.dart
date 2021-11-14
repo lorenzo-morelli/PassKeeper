@@ -78,28 +78,29 @@ class _HomeState extends State<Home> {
                       Image.asset('assets/images/home.png', fit: BoxFit.cover)),
               Column(
                 children: [
-                  SizedBox(height: 25),
+                  SizedBox(height: 35),
                   Wrap(
-                    runSpacing: -10,
+                    runSpacing: -6,
                     children: [
                       Center(
                         child: Text(
                           'PassKeeper.',
-                          style: TextStyle(fontSize: 35),
+                          style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      SizedBox(height: 70),
+                      SizedBox(height: 60),
                       Center(
                         child: Text(
                           'A safe place to store all',
-                          style: TextStyle(fontSize: 19),
+                          style: TextStyle(fontSize: 19, fontStyle: FontStyle.italic),
                         ),
                       ),
                       Center(
                         child: RichText(
                           text: TextSpan(
                             style: TextStyle(
-                                fontFamily: 'ZenAntique',
+                                fontFamily: 'GentiumBook',
+                                fontWeight: FontWeight.w600,
                                 color: Colors.black,
                                 fontSize: 19),
                             children: const [

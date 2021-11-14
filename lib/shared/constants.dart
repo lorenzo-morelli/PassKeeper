@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class Constants {
   static const double cornRad = 30;
+  static Color? lightGrey = Colors.grey[100];
 
   static InputDecoration textInputDecoration = InputDecoration(
     hintText: 'site',

@@ -11,13 +11,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          fontFamily: 'Butler',
+          fontFamily: 'GentiumBook',
           highlightColor: Colors.white,
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: Colors.black87,
         ),
       ),
-      home: Wrapper(), // should be Wrapper()
+      home: Login(), // should be Wrapper()
     );
   }
 }

@@ -63,9 +63,18 @@ flutter:
     - assets/images/home.png
 
   fonts:
-    - family: Butler
+    - family: GentiumBook
       fonts:
-        - asset: assets/fonts/
+        - asset: assets/fonts/GentiumBook/GentiumBookBasic-Regular.ttf
+        - asset: assets/fonts/GentiumBook/GentiumBookBasic-Italic.ttf
+          style: italic
+        - asset: assets/fonts/GentiumBook/GentiumBookBasic-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/GentiumBook/GentiumBookBasic-BoldItalic.ttf
+          weight: 700
+          style: italic
+
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:
