@@ -3,7 +3,8 @@ import 'package:passkeeper/shared/constants.dart';
 import 'package:passkeeper/shared/loading.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({Key? key, required this.toggleView}) : super(key: key);
+  final Function toggleView;
 
   @override
   _LoginState createState() => _LoginState();
@@ -26,13 +27,13 @@ class _LoginState extends State<Login> {
             body: Column(
               children: [
                 SizedBox(height: 120),
-                Center(
-                  child: Text(
-                    'Login',
-                    style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                    ),
+                Text('AGGIUNGERE IMMAGINE CARRINA'),
+                Text(
+                  'Login',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(height: 30),
@@ -106,7 +107,7 @@ class _LoginState extends State<Login> {
                     'Register',
                     style: TextStyle(color: Colors.white, fontSize: 18, fontStyle: FontStyle.italic),
                   ),
-                  onPressed: () {},
+                  onPressed: () => widget.toggleView(),
                 ),
               ],
             ),

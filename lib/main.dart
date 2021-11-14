@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:passkeeper/views/authentication/authenticate.dart';
 import 'package:passkeeper/views/authentication/login.dart';
 import 'package:passkeeper/views/wrapper.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.black87,
         ),
       ),
-      home: Login(), // should be Wrapper()
+      home: Authenticate(), // should be Wrapper()
     );
   }
 }
