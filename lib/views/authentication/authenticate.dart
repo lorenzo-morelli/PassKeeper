@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:passkeeper/views/authentication/register.dart';
-
 import 'login.dart';
 
 class Authenticate extends StatefulWidget {
@@ -11,7 +10,7 @@ class Authenticate extends StatefulWidget {
 }
 
 class _AuthenticateState extends State<Authenticate> {
-  bool login = false;
+  bool login = true;
 
   void toggleView() {
     setState(() {

@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lorenzomorelli.passkeeper.passkeeper">
    <application
-        android:label="passkeeper"
+        android:usesCleartextTraffic = "true"
+        android:label="PassKeeper"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

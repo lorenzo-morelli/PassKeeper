@@ -1,14 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:passkeeper/models/account.dart';
 
 class Constants {
   static const double cornRad = 30;
   static Color? lightGrey = Colors.grey[100];
+  static bool withGoogle = false;
 
   static InputDecoration textInputDecoration = InputDecoration(
     hintText: 'site',
     fillColor: Colors.white,
     filled: true,
+    focusedErrorBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.red, width: 2),
+      borderRadius: BorderRadius.all(Radius.circular(Constants.cornRad)),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.red, width: 2),
+      borderRadius: BorderRadius.all(Radius.circular(Constants.cornRad)),
+    ),
     enabledBorder: OutlineInputBorder(
       borderSide: BorderSide(color: Colors.white, width: 2),
       borderRadius: BorderRadius.all(Radius.circular(Constants.cornRad)),
@@ -18,11 +28,32 @@ class Constants {
       borderRadius: BorderRadius.all(Radius.circular(Constants.cornRad)),
     ),
     contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 25),
-    suffixIcon: IconButton(
-      onPressed: () {},
-      icon: Icon(Icons.close, color: Colors.grey),
-    ),
-  );
+    suffixIcon: null,
+    );
+
+  static List<Color> colors = [
+    Colors.green,
+    Colors.orange,
+    Colors.blue,
+    Colors.pink,
+    Colors.yellow,
+    Colors.cyanAccent,
+    Colors.purple,
+    Colors.red,
+    Colors.deepOrange,
+    Colors.teal,
+    Colors.indigoAccent,
+    Colors.amber,
+    Colors.cyan,
+    Colors.blueGrey,
+    Colors.brown,
+    Colors.black,
+  ];
+
+  static List<Account> allAccounts = <Account>[
+    Account('facebook', 'morel', 'pass'),
+    Account.withColor('instagram', 'andre', 'ciao', Colors.red),
+  ];
 
   static ThemeData theme = ThemeData(
     fontFamily: 'GentiumBook',
@@ -31,4 +62,6 @@ class Constants {
       backgroundColor: Colors.black87,
     ),
   );
+
+  //TODO: colori temi... rosino sul psd, bianchino..., usare solo costanti!
 }

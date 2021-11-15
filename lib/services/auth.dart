@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:passkeeper/models/my_user.dart';
+import 'package:passkeeper/shared/constants.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -31,13 +33,35 @@ class AuthService {
       return null;
     }
   }
-
-  Future signOut() async {
-    try {
-      return await _auth.signOut();
-    } catch (e) {
-      return null;
+  
+  Future signInWithGoogle() async {
+    final googleUser = await GoogleSignIn().signIn();
+    if (googleUser == null) {
+      return;
     }
+    final googleAuth = await googleUser.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    UserCredential result = await FirebaseAuth.instance.signInWithCredential(credential);
+    User? user = result.user;
+    return _userOfFirebase(user!);
   }
 
+  Future signOut() async {
+    if (Constants.withGoogle) {
+      try {
+        return await GoogleSignIn().signOut();
+      } catch (e) {
+        return null;
+      }
+    } else {
+      try {
+        return await _auth.signOut();
+      } catch (e) {
+        return null;
+      }
+    }
+  }
 }

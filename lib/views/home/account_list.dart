@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:passkeeper/models/account.dart';
+import 'package:passkeeper/shared/constants.dart';
 import 'package:passkeeper/views/home/account_tile.dart';
 
 class AccountList extends StatefulWidget {
@@ -10,18 +10,14 @@ class AccountList extends StatefulWidget {
 }
 
 class _AccountListState extends State<AccountList> {
-  final accounts = <Account>[
-    Account('facebook', 'morel', 'pass'),
-    Account('instagram', 'andre', 'ciao'),
-  ];
 
   @override
   Widget build(BuildContext context) {
 
     return ListView.builder(
-      itemCount: accounts.length,
+      itemCount: Constants.allAccounts.length,
       itemBuilder: (context, index) {
-        return AccountTile(account: accounts[index]);
+        return AccountTile(account: Constants.allAccounts[index], index: index);
       },
     );
   }

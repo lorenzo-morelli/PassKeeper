@@ -8,14 +8,12 @@ class SettingsForm extends StatefulWidget {
   final int index;
 
   @override
-  _SettingsFormState createState() => _SettingsFormState(index: index);
+  _SettingsFormState createState() => _SettingsFormState();
 }
 
 class _SettingsFormState extends State<SettingsForm> {
-  _SettingsFormState({required this.index});
   final _formKey = GlobalKey<FormState>();
   final controller = TextEditingController();
-  final int index;
   final allAccounts = <Account>[
     Account('facebook', 'morel', 'pass'),
     Account('instagram', 'andre', 'ciao'),
@@ -62,7 +60,7 @@ class _SettingsFormState extends State<SettingsForm> {
                 Container(
                   alignment: Alignment.topCenter,
                   child: Text(
-                    'Update settings for ${allAccounts[index].site}.',
+                    'Update settings for ${allAccounts[widget.index].site}.',
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -70,7 +68,7 @@ class _SettingsFormState extends State<SettingsForm> {
                 ),
                 SizedBox(height: 20.0),
                 TextFormField(
-                  initialValue: allAccounts[0].username,
+                  initialValue: allAccounts[widget.index].site,
                   decoration: Constants.textInputDecoration,
                   validator: (val) =>
                       val!.isEmpty ? 'Please enter a site' : null,
@@ -78,7 +76,7 @@ class _SettingsFormState extends State<SettingsForm> {
                 ),
                 SizedBox(height: 10.0),
                 TextFormField(
-                  initialValue: allAccounts[0].username,
+                  initialValue: allAccounts[widget.index].username,
                   decoration: Constants.textInputDecoration.copyWith(
                     hintText: 'username',
                   ),
@@ -88,7 +86,7 @@ class _SettingsFormState extends State<SettingsForm> {
                 ),
                 SizedBox(height: 10.0),
                 TextFormField(
-                  initialValue: allAccounts[0].password,
+                  initialValue: allAccounts[widget.index].password,
                   decoration: Constants.textInputDecoration.copyWith(
                     hintText: 'Password',
                   ),

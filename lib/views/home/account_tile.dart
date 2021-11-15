@@ -8,11 +8,6 @@ class AccountTile extends StatelessWidget {
   final Account account;
   final int index;
 
-  static List<Account> allAccounts = <Account>[
-    Account('facebook', 'morel', 'pass'),
-    Account.withColor('instagram', 'andre', 'ciao', Colors.red),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:passkeeper/services/auth.dart';
 import 'package:passkeeper/shared/constants.dart';
 import 'package:passkeeper/shared/loading.dart';
@@ -14,6 +15,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
+  var controlEmail = TextEditingController();
+  var controlPassword = TextEditingController();
   bool loading = false;
   String email = '';
   String password = '';
@@ -57,16 +60,40 @@ class _LoginState extends State<Login> {
                     child: Column(
                       children: [
                         TextFormField(
-                          decoration: Constants.textInputDecoration.copyWith(hintText: 'Email'),
-                          validator: (val) => val!.isEmpty ? 'Enter an email' : null,
+                          controller: controlEmail,
+                          decoration: Constants.textInputDecoration.copyWith(
+                            hintText: 'email',
+                            suffixIcon: email.isNotEmpty
+                                ? IconButton(
+                                    onPressed: () => setState(() {
+                                      controlEmail.clear();
+                                      email = '';
+                                    }),
+                                    icon: Icon(Icons.close, color: Colors.grey),
+                                  )
+                                : null,
+                          ),
+                          validator: (val) => val!.isEmpty ? 'Enter email' : null,
                           onChanged: (val) {
                             setState(() => email = val);
                           },
                         ),
                         SizedBox(height: 20),
                         TextFormField(
-                          decoration: Constants.textInputDecoration.copyWith(hintText: 'Password'),
-                          validator: (val) => val!.length < 6 ? 'Enter a password 6+ chars long' : null,
+                          controller: controlPassword,
+                          decoration: Constants.textInputDecoration.copyWith(
+                            hintText: 'password',
+                            suffixIcon: password.isNotEmpty
+                                ? IconButton(
+                                    onPressed: () => setState(() {
+                                      controlPassword.clear();
+                                      password = '';
+                                    }),
+                                    icon: Icon(Icons.close, color: Colors.grey),
+                                  )
+                                : null,
+                          ),
+                          validator: (val) => val!.isEmpty ? 'Enter password' : null,
                           obscureText: true,
                           onChanged: (val) {
                             setState(() => password = val);
@@ -88,8 +115,9 @@ class _LoginState extends State<Login> {
                             style: TextStyle(color: Colors.white, fontSize: 22),
                           ),
                           onPressed: () async {
-                            if(_formKey.currentState!.validate()) {
-                              setState(() => loading = true);
+                            if (_formKey.currentState!.validate()) {
+                              setState(() => loading = false);
+                              Constants.withGoogle = true;
                               dynamic result = await _auth.signIn(email, password);
                               if (result == null) {
                                 setState(() {
@@ -106,8 +134,29 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-                SizedBox(height: 130),
-                Text("Haven't an account yet?", style: TextStyle(fontSize: 17)),
+                SizedBox(height: 30),
+                TextButton.icon(
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(horizontal: 30, vertical: 10)),
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(Constants.cornRad),
+                      ),
+                    ),
+                  ),
+                  label: Text(
+                    'Sign in with Google',
+                    style: TextStyle(color: Colors.black, fontSize: 15, fontFamily: 'default'),
+                  ),
+                  icon: FaIcon(FontAwesomeIcons.google, color: Colors.red),
+                  onPressed: () async {
+                    await _auth.signInWithGoogle();
+                    Constants.withGoogle = true;
+                  },
+                ),
+                SizedBox(height: 60),
+                Text("Don't have an account yet?", style: TextStyle(fontSize: 17)),
                 TextButton(
                   style: ButtonStyle(
                     padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(horizontal: 20)),
