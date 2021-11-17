@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:passkeeper/services/auth.dart';
 import 'package:passkeeper/shared/constants.dart';
 import 'package:passkeeper/shared/loading.dart';
+import 'package:passkeeper/views/authentication/reset_password.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key, required this.toggleView}) : super(key: key);
@@ -17,14 +18,14 @@ class _LoginState extends State<Login> {
   final AuthService _auth = AuthService();
   var controlEmail = TextEditingController();
   var controlPassword = TextEditingController();
-  bool loading = false;
   String email = '';
   String password = '';
   String error = '';
 
   @override
   Widget build(BuildContext context) {
-    return loading
+    Constants.loading = false;
+    return Constants.loading
         ? Loading()
         : Scaffold(
             resizeToAvoidBottomInset: false,
@@ -99,6 +100,21 @@ class _LoginState extends State<Login> {
                             setState(() => password = val);
                           },
                         ),
+                        SizedBox(height: 5),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          child: GestureDetector(
+                            child: Text(
+                              'Forgot password?',
+                              style: TextStyle(decoration: TextDecoration.underline, fontSize: 15),
+                              textAlign: TextAlign.end,
+                            ),
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ResetPassword()),
+                            ),
+                          ),
+                        ),
                         SizedBox(height: 30),
                         TextButton(
                           style: ButtonStyle(
@@ -116,13 +132,13 @@ class _LoginState extends State<Login> {
                           ),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              setState(() => loading = false);
-                              Constants.withGoogle = true;
+                              setState(() => Constants.loading = true);
+                              Constants.withGoogle = false;
                               dynamic result = await _auth.signIn(email, password);
                               if (result == null) {
                                 setState(() {
                                   error = "Couldn't sign in with those credentials";
-                                  loading = false;
+                                  Constants.loading = false;
                                 });
                               }
                             }
@@ -151,8 +167,9 @@ class _LoginState extends State<Login> {
                   ),
                   icon: FaIcon(FontAwesomeIcons.google, color: Colors.red),
                   onPressed: () async {
-                    await _auth.signInWithGoogle();
+                    setState(() => Constants.loading = true);
                     Constants.withGoogle = true;
+                    await _auth.signInWithGoogle();
                   },
                 ),
                 SizedBox(height: 60),

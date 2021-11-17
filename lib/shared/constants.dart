@@ -6,7 +6,7 @@ class Constants {
   static const double cornRad = 30;
   static Color? lightGrey = Colors.grey[100];
   static bool withGoogle = false;
-
+  static bool loading = false;
   static InputDecoration textInputDecoration = InputDecoration(
     hintText: 'site',
     fillColor: Colors.white,
@@ -51,8 +51,8 @@ class Constants {
   ];
 
   static List<Account> allAccounts = <Account>[
-    Account('facebook', 'morel', 'pass'),
-    Account.withColor('instagram', 'andre', 'ciao', Colors.red),
+    Account('instagram', 'morel', 'pass'),
+    Account.withColor('facebook', 'andre', 'ciao', Colors.red),
   ];
 
   static ThemeData theme = ThemeData(

@@ -8,8 +8,4 @@ class Account {
 
   Account(this.site, this.username, this.password);
   Account.withColor(this.site, this.username, this.password, this.color);
-
-  changeColor(Color color) {
-    this.color = color;
-  }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:passkeeper/models/account.dart';
 import 'package:passkeeper/shared/constants.dart';
 
 class SettingsForm extends StatefulWidget {
@@ -14,37 +13,14 @@ class SettingsForm extends StatefulWidget {
 class _SettingsFormState extends State<SettingsForm> {
   final _formKey = GlobalKey<FormState>();
   final controller = TextEditingController();
-  final allAccounts = <Account>[
-    Account('facebook', 'morel', 'pass'),
-    Account('instagram', 'andre', 'ciao'),
-  ]; // TODO
-  Color color = Colors.red;
-
-  List<Color> colors = [
-    Colors.green,
-    Colors.orange,
-    Colors.blue,
-    Colors.pink,
-    Colors.yellow,
-    Colors.cyanAccent,
-    Colors.purple,
-    Colors.red,
-    Colors.deepOrange,
-    Colors.teal,
-    Colors.indigoAccent,
-    Colors.amber,
-    Colors.cyan,
-    Colors.blueGrey,
-    Colors.brown,
-    Colors.black,
-  ];
-
+  late Color color;
   @override
   Widget build(BuildContext context) {
+    Color color = Constants.allAccounts[widget.index].color;
     return Wrap(
       children: [
         Container(
-          height: MediaQuery.of(context).size.height * 0.95,
+          height: MediaQuery.of(context).size.height * 0.90,
           padding: EdgeInsets.symmetric(vertical: 40.0, horizontal: 60.0),
           decoration: BoxDecoration(
             color: Colors.white10,
@@ -60,7 +36,7 @@ class _SettingsFormState extends State<SettingsForm> {
                 Container(
                   alignment: Alignment.topCenter,
                   child: Text(
-                    'Update settings for ${allAccounts[widget.index].site}.',
+                    'Update settings for ${Constants.allAccounts[widget.index].site}.',
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -68,7 +44,7 @@ class _SettingsFormState extends State<SettingsForm> {
                 ),
                 SizedBox(height: 20.0),
                 TextFormField(
-                  initialValue: allAccounts[widget.index].site,
+                  initialValue: Constants.allAccounts[widget.index].site,
                   decoration: Constants.textInputDecoration,
                   validator: (val) =>
                       val!.isEmpty ? 'Please enter a site' : null,
@@ -76,7 +52,7 @@ class _SettingsFormState extends State<SettingsForm> {
                 ),
                 SizedBox(height: 10.0),
                 TextFormField(
-                  initialValue: allAccounts[widget.index].username,
+                  initialValue: Constants.allAccounts[widget.index].username,
                   decoration: Constants.textInputDecoration.copyWith(
                     hintText: 'username',
                   ),
@@ -86,7 +62,7 @@ class _SettingsFormState extends State<SettingsForm> {
                 ),
                 SizedBox(height: 10.0),
                 TextFormField(
-                  initialValue: allAccounts[widget.index].password,
+                  initialValue: Constants.allAccounts[widget.index].password,
                   decoration: Constants.textInputDecoration.copyWith(
                     hintText: 'Password',
                   ),
@@ -95,16 +71,13 @@ class _SettingsFormState extends State<SettingsForm> {
                   onChanged: (val) => {},
                 ),
                 SizedBox(height: 30),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 40),
-                  child: BlockPicker(
-                    pickerColor: color,
-                    availableColors: colors,
-                    onColorChanged: (color) => setState(() {
-                      this.color = color;
-                      print('color changed: $color');
-                    }),
-                  ),
+                BlockPicker(
+                  pickerColor: color,
+                  availableColors: Constants.colors,
+                  onColorChanged: (color) => setState(() {
+                    this.color = color;
+                    print('color changed: $color');
+                  }),
                 ),
                 //SizedBox(height: 35),
                 TextButton(

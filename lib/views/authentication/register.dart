@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:passkeeper/services/auth.dart';
 import 'package:passkeeper/shared/constants.dart';
 import 'package:passkeeper/shared/loading.dart';
+import 'package:passkeeper/views/authentication/verify_email.dart';
+import 'package:passkeeper/views/home/home.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key, required this.toggleView}) : super(key: key);
@@ -16,14 +18,14 @@ class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   var controlEmail = TextEditingController();
   var controlPassword = TextEditingController();
-  bool loading = false;
   String email = '';
   String password = '';
   String error = '';
 
   @override
   Widget build(BuildContext context) {
-    return loading
+    Constants.loading = false;
+    return Constants.loading
         ? Loading()
         : Scaffold(
             resizeToAvoidBottomInset: false,
@@ -80,6 +82,7 @@ class _RegisterState extends State<Register> {
                         SizedBox(height: 20),
                         TextFormField(
                           controller: controlPassword,
+                          obscureText: true,
                           decoration: Constants.textInputDecoration.copyWith(
                             hintText: 'password',
                             suffixIcon: email.isNotEmpty
@@ -94,7 +97,7 @@ class _RegisterState extends State<Register> {
                           ),
                           validator: (val) => val!.length < 6 ? 'Enter a password 6+ chars long' : null,
                           onChanged: (val) {
-                            setState(() => email = val);
+                            setState(() => password = val);
                           },
                         ),
                         SizedBox(height: 30),
@@ -114,12 +117,13 @@ class _RegisterState extends State<Register> {
                           ),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              setState(() => loading = true);
+                              setState(() => Constants.loading = true);
                               dynamic result = await _auth.register(email, password);
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyScreen()));
                               if (result == null) {
                                 setState(() {
                                   error = 'Please supply a valid email';
-                                  loading = false;
+                                  Constants.loading = false;
                                 });
                               }
                             }
@@ -152,5 +156,19 @@ class _RegisterState extends State<Register> {
               ],
             ),
           );
+  }
+
+  Future<void> popup() async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        contentPadding: EdgeInsets.all(0),
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(Constants.cornRad)),
+        ),
+        content: Text('email being verified'),
+      ),
+    );
   }
 }

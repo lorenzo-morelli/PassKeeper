@@ -6,6 +6,7 @@ import 'account_tile.dart';
 import 'add_accounts.dart';
 import 'dropdown_menu.dart';
 import 'title.dart';
+import 'dart:math' as math;
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -33,24 +34,33 @@ class _HomeState extends State<Home> {
           SizedBox(height: 50),
           Container(
             alignment: Alignment.bottomRight,
-            child: PopupMenuButton<int>(
-              onSelected: (item) => dropDown(context, item),
-              icon: Icon(Icons.settings),
-              itemBuilder: (context) => [
-                PopupMenuItem(
-                  value: 0,
-                  child: Text('Settings'),
-                ),
-                PopupMenuItem(
-                  value: 1,
-                  child: Text('Logout'),
-                ),
-              ],
-            ),
+            child: DropDownMenu(),
           ),
           SizedBox(height: 25),
           AppName(),
-          SizedBox(height: 30),
+          Container(
+            alignment: Alignment.centerRight,
+            child: PopupMenuButton<int>(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+              ),
+              icon: Transform(
+                transform: Matrix4.rotationY(math.pi),
+                child: Icon(Icons.sort),
+              ),
+              onSelected: (item) => dropDownSortBy(context, item, accounts),
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 0,
+                  child: Text('Alphabetical order A-Z'),
+                ),
+                PopupMenuItem(
+                  value: 1,
+                  child: Text('Alphabetical order Z-A'),
+                )
+              ],
+            ),
+          ),
           SearchWidget(
             text: query,
             onChanged: searchAccount,
@@ -89,5 +99,20 @@ class _HomeState extends State<Home> {
       this.query = query;
       this.accounts = accounts;
     });
+  }
+
+  void dropDownSortBy(BuildContext context, int item, List<Account> accounts) {
+    switch (item) {
+      case 0:
+        setState(() {
+          this.accounts = accounts;
+        });
+        break;
+      case 1:
+        setState(() {
+          this.accounts = accounts;
+        });
+        break;
+    }
   }
 }

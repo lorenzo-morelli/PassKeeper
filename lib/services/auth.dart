@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:passkeeper/models/my_user.dart';
 import 'package:passkeeper/shared/constants.dart';
@@ -49,19 +52,33 @@ class AuthService {
     return _userOfFirebase(user!);
   }
 
+  Future verifyEmail() async {
+    User? user = _auth.currentUser;
+    user!.sendEmailVerification();
+  }
+
+  bool isVerified() {
+    User? user = _auth.currentUser;
+    if (user!.emailVerified) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future reload() async {
+    User? user = _auth.currentUser;
+    user!.reload();
+  }
+
   Future signOut() async {
     if (Constants.withGoogle) {
-      try {
-        return await GoogleSignIn().signOut();
-      } catch (e) {
-        return null;
-      }
-    } else {
+      await GoogleSignIn().signOut();
+    }
       try {
         return await _auth.signOut();
       } catch (e) {
         return null;
       }
-    }
   }
 }
