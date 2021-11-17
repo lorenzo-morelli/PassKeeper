@@ -189,27 +189,6 @@ class _LoginState extends State<Login> {
                 ),
                 SizedBox(height: 30),
                 Text("Don't have an account yet?", style: TextStyle(fontSize: 17)),
-                password.isNotEmpty
-                    ? Row(
-                        children: [
-                          IconButton(
-                            onPressed: () => setState(() {
-                              obscurePassword = !obscurePassword;
-                            }),
-                            icon: obscurePassword
-                                ? Icon(Icons.visibility, color: Colors.grey)
-                                : Icon(Icons.visibility_off, color: Colors.grey),
-                          ),
-                          IconButton(
-                            onPressed: () => setState(() {
-                              controlPassword.clear();
-                              password = '';
-                            }),
-                            icon: Icon(Icons.close, color: Colors.grey),
-                          )
-                        ],
-                      )
-                    : Text(''),
                 TextButton(
                   style: ButtonStyle(
                     padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(horizontal: 20)),

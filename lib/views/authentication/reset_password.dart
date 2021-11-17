@@ -14,7 +14,7 @@ class _ResetPasswordState extends State<ResetPassword> {
   var controlEmail = TextEditingController();
   final AuthService _auth = AuthService();
   String email = '';
-  String error = '';
+  String message = '';
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                       setState(() => email = val);
                     },
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 5),
+                  Text(message, style: TextStyle(color: Colors.red)),
+                  SizedBox(height: 10),
                   Row(
                     children: [
                       Container(
@@ -78,13 +80,13 @@ class _ResetPasswordState extends State<ResetPassword> {
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 setState(() => Constants.loading = true);
-                                // TODO;
-                                // if (result == null) {
-                                //   setState(() {
-                                //     error = "Couldn't sign in with those credentials";
-                                //     Constants.loading = false;
-                                //   });
-                                //}
+                                dynamic result = await _auth.resetPasswordNotLogged(email);
+                                if (result == null) {
+                                  setState(() => message = 'Impossible to reset password for this account');
+                                } else {
+                                  setState(() => message = 'Check your email to reset your password');
+                                }
+                                // TODO reset password
                               }
                             }),
                       ),

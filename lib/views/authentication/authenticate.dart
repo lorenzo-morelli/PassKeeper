@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:passkeeper/services/auth.dart';
 import 'package:passkeeper/views/authentication/register.dart';
 import 'login.dart';
 

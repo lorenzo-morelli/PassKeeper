@@ -70,6 +70,10 @@ class AuthService {
     user!.reload();
   }
 
+  Future resetPasswordNotLogged(String email) async {
+    _auth.sendPasswordResetEmail(email: email);
+  }
+
   Future signOut() async {
     if (Constants.withGoogle) {
       await GoogleSignIn().signOut();
