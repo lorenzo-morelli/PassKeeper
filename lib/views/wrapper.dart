@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:passkeeper/models/my_user.dart';
 import 'package:passkeeper/services/auth.dart';
@@ -15,11 +14,17 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<MyUser?>(context);
-    return user == null ? Authenticate() : Home();
+    if (user == null) {
+      return Authenticate();
+    } else if (!_auth.isVerified()) {
+      return VerifyScreen();
+    } else {
+      return Home();
+    }
   }
 }
-

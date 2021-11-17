@@ -18,6 +18,7 @@ class _LoginState extends State<Login> {
   final AuthService _auth = AuthService();
   var controlEmail = TextEditingController();
   var controlPassword = TextEditingController();
+  bool obscurePassword = true;
   String email = '';
   String password = '';
   String error = '';
@@ -80,34 +81,48 @@ class _LoginState extends State<Login> {
                           },
                         ),
                         SizedBox(height: 20),
-                        TextFormField(
-                          controller: controlPassword,
-                          decoration: Constants.textInputDecoration.copyWith(
-                            hintText: 'password',
-                            suffixIcon: password.isNotEmpty
-                                ? IconButton(
-                                    onPressed: () => setState(() {
-                                      controlPassword.clear();
-                                      password = '';
-                                    }),
-                                    icon: Icon(Icons.close, color: Colors.grey),
-                                  )
-                                : null,
-                          ),
-                          validator: (val) => val!.isEmpty ? 'Enter password' : null,
-                          obscureText: true,
-                          onChanged: (val) {
-                            setState(() => password = val);
-                          },
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                controller: controlPassword,
+                                decoration: Constants.textInputDecoration.copyWith(
+                                  hintText: 'password',
+                                  suffixIcon: password.isNotEmpty
+                                      ? IconButton(
+                                          onPressed: () => setState(() {
+                                            controlPassword.clear();
+                                            password = '';
+                                          }),
+                                          icon: Icon(Icons.close, color: Colors.grey),
+                                        )
+                                      : null,
+                                ),
+                                validator: (val) => val!.isEmpty ? 'Enter password' : null,
+                                obscureText: obscurePassword,
+                                onChanged: (val) {
+                                  setState(() => password = val);
+                                },
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            GestureDetector(
+                              child: obscurePassword
+                                  ? Icon(Icons.visibility, color: Colors.black54)
+                                  : Icon(Icons.visibility_off, color: Colors.black54),
+                              onTap: () => setState(() {
+                                obscurePassword = !obscurePassword;
+                              }),
+                            ),
+                          ],
                         ),
-                        SizedBox(height: 5),
+                        SizedBox(height: 7),
                         Container(
-                          alignment: Alignment.centerRight,
+                          alignment: Alignment.center,
                           child: GestureDetector(
                             child: Text(
                               'Forgot password?',
                               style: TextStyle(decoration: TextDecoration.underline, fontSize: 15),
-                              textAlign: TextAlign.end,
                             ),
                             onTap: () => Navigator.push(
                               context,
@@ -172,8 +187,29 @@ class _LoginState extends State<Login> {
                     await _auth.signInWithGoogle();
                   },
                 ),
-                SizedBox(height: 60),
+                SizedBox(height: 30),
                 Text("Don't have an account yet?", style: TextStyle(fontSize: 17)),
+                password.isNotEmpty
+                    ? Row(
+                        children: [
+                          IconButton(
+                            onPressed: () => setState(() {
+                              obscurePassword = !obscurePassword;
+                            }),
+                            icon: obscurePassword
+                                ? Icon(Icons.visibility, color: Colors.grey)
+                                : Icon(Icons.visibility_off, color: Colors.grey),
+                          ),
+                          IconButton(
+                            onPressed: () => setState(() {
+                              controlPassword.clear();
+                              password = '';
+                            }),
+                            icon: Icon(Icons.close, color: Colors.grey),
+                          )
+                        ],
+                      )
+                    : Text(''),
                 TextButton(
                   style: ButtonStyle(
                     padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(horizontal: 20)),

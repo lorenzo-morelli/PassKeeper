@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:passkeeper/models/my_user.dart';
 import 'package:passkeeper/shared/constants.dart';
@@ -36,7 +35,7 @@ class AuthService {
       return null;
     }
   }
-  
+
   Future signInWithGoogle() async {
     final googleUser = await GoogleSignIn().signIn();
     if (googleUser == null) {
@@ -75,10 +74,10 @@ class AuthService {
     if (Constants.withGoogle) {
       await GoogleSignIn().signOut();
     }
-      try {
-        return await _auth.signOut();
-      } catch (e) {
-        return null;
-      }
+    try {
+      return await _auth.signOut();
+    } catch (e) {
+      return null;
+    }
   }
 }

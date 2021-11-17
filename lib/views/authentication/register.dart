@@ -3,7 +3,6 @@ import 'package:passkeeper/services/auth.dart';
 import 'package:passkeeper/shared/constants.dart';
 import 'package:passkeeper/shared/loading.dart';
 import 'package:passkeeper/views/authentication/verify_email.dart';
-import 'package:passkeeper/views/home/home.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key, required this.toggleView}) : super(key: key);
@@ -17,9 +16,13 @@ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
   var controlEmail = TextEditingController();
-  var controlPassword = TextEditingController();
+  var controlPassword1 = TextEditingController();
+  var controlPassword2 = TextEditingController();
+  bool obscurePassword1 = true;
+  bool obscurePassword2 = true;
   String email = '';
-  String password = '';
+  String password1 = '';
+  String password2 = '';
   String error = '';
 
   @override
@@ -74,31 +77,82 @@ class _RegisterState extends State<Register> {
                                   )
                                 : null,
                           ),
-                          validator: (val) => val!.isEmpty ? 'Enter an email' : null,
+                          validator: (val) => val!.isEmpty ? 'Enter an email.' : null,
                           onChanged: (val) {
                             setState(() => email = val);
                           },
                         ),
                         SizedBox(height: 20),
-                        TextFormField(
-                          controller: controlPassword,
-                          obscureText: true,
-                          decoration: Constants.textInputDecoration.copyWith(
-                            hintText: 'password',
-                            suffixIcon: email.isNotEmpty
-                                ? IconButton(
-                                    onPressed: () => setState(() {
-                                      controlPassword.clear();
-                                      password = '';
-                                    }),
-                                    icon: Icon(Icons.close, color: Colors.grey),
-                                  )
-                                : null,
-                          ),
-                          validator: (val) => val!.length < 6 ? 'Enter a password 6+ chars long' : null,
-                          onChanged: (val) {
-                            setState(() => password = val);
-                          },
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                controller: controlPassword1,
+                                decoration: Constants.textInputDecoration.copyWith(
+                                  hintText: 'password',
+                                  suffixIcon: password1.isNotEmpty
+                                      ? IconButton(
+                                          onPressed: () => setState(() {
+                                            controlPassword1.clear();
+                                            password1 = '';
+                                          }),
+                                          icon: Icon(Icons.close, color: Colors.grey),
+                                        )
+                                      : null,
+                                ),
+                                validator: (val) => val!.length < 6 ? 'Enter a password of 6 characters at least.' : null,
+                                obscureText: obscurePassword1,
+                                onChanged: (val) {
+                                  setState(() => password1 = val);
+                                },
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            GestureDetector(
+                              child: obscurePassword1
+                                  ? Icon(Icons.visibility, color: Colors.black54)
+                                  : Icon(Icons.visibility_off, color: Colors.black54),
+                              onTap: () => setState(() {
+                                obscurePassword1 = !obscurePassword1;
+                              }),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                controller: controlPassword2,
+                                decoration: Constants.textInputDecoration.copyWith(
+                                  hintText: 'password',
+                                  suffixIcon: password2.isNotEmpty
+                                      ? IconButton(
+                                          onPressed: () => setState(() {
+                                            controlPassword2.clear();
+                                            password2 = '';
+                                          }),
+                                          icon: Icon(Icons.close, color: Colors.grey),
+                                        )
+                                      : null,
+                                ),
+                                validator: (val) => password1 != password2 ? "Passwords don't match." : null,
+                                obscureText: obscurePassword2,
+                                onChanged: (val) {
+                                  setState(() => password2 = val);
+                                },
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            GestureDetector(
+                              child: obscurePassword2
+                                  ? Icon(Icons.visibility, color: Colors.black54)
+                                  : Icon(Icons.visibility_off, color: Colors.black54),
+                              onTap: () => setState(() {
+                                obscurePassword2 = !obscurePassword2;
+                              }),
+                            ),
+                          ],
                         ),
                         SizedBox(height: 30),
                         TextButton(
@@ -118,24 +172,24 @@ class _RegisterState extends State<Register> {
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               setState(() => Constants.loading = true);
-                              dynamic result = await _auth.register(email, password);
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyScreen()));
+                              dynamic result = await _auth.register(email, password1);
                               if (result == null) {
                                 setState(() {
-                                  error = 'Please supply a valid email';
+                                  error = 'Please supply a valid email or \n user already registered.';
                                   Constants.loading = false;
                                 });
                               }
+                              result = await _auth.verifyEmail();
                             }
                           },
                         ),
                         SizedBox(height: 12),
-                        Text(error, style: TextStyle(color: Colors.red, fontSize: 14)),
+                        Text(error, style: TextStyle(color: Colors.red, fontSize: 14), textAlign: TextAlign.center),
                       ],
                     ),
                   ),
                 ),
-                SizedBox(height: 130),
+                SizedBox(height: 70),
                 Text("Have an account already?", style: TextStyle(fontSize: 17)),
                 TextButton(
                   style: ButtonStyle(

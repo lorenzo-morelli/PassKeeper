@@ -15,7 +15,7 @@ class VerifyScreen extends StatefulWidget {
 class _VerifyScreenState extends State<VerifyScreen> {
   final AuthService _auth = AuthService();
   int time = 60;
-
+  Timer timer = Timer(Duration(seconds: 0), () => {});
   // @override
   // void dispose() {
   //   timer.cancel();
@@ -25,7 +25,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
   @override
   void initState() {
     _auth.verifyEmail();
-    Timer.periodic(Duration(seconds: 1), (timer) async {
+    timer = Timer.periodic(Duration(seconds: 1), (timer) async {
       setState(() {
         if (time > 0) {
           time--;
@@ -41,6 +41,12 @@ class _VerifyScreenState extends State<VerifyScreen> {
       }
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   @override
