@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:passkeeper/services/auth.dart';
+import 'package:passkeeper/services/database.dart';
 import 'package:passkeeper/shared/constants.dart';
 import 'package:passkeeper/shared/loading.dart';
 import 'package:passkeeper/views/authentication/reset_password.dart';

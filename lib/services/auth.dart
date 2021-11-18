@@ -12,7 +12,7 @@ class AuthService {
     return MyUser(user.uid);
   }
 
-  Stream<MyUser> get user {
+  Stream<MyUser?> get user {
     return _auth.authStateChanges().map((user) => _userOfFirebase(user!));
   }
 
@@ -49,6 +49,11 @@ class AuthService {
     UserCredential result = await FirebaseAuth.instance.signInWithCredential(credential);
     User? user = result.user;
     return _userOfFirebase(user!);
+  }
+
+  String getUid() {
+    User? user = _auth.currentUser;
+    return user!.uid;
   }
 
   Future verifyEmail() async {
