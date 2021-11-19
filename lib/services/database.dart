@@ -24,9 +24,8 @@ class DatabaseService {
 
   Future addUser(UserData user) async {
     return usersColl.doc(uid).set({
-      'uid': uid,
       'first name': user.firstName,
-      'surname': user.lastName,
+      'last name': user.lastName,
     });
   }
 

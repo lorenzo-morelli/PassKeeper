@@ -15,6 +15,7 @@ class _AccountListState extends State<AccountList> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: EdgeInsets.only(top: 0),
       itemCount: widget.accounts.length,
       itemBuilder: (context, index) {
         return AccountTile(account: widget.accounts[index], index: index);

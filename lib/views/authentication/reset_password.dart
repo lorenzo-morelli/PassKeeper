@@ -61,34 +61,31 @@ class _ResetPasswordState extends State<ResetPassword> {
                   SizedBox(height: 10),
                   Row(
                     children: [
-                      Container(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                            style: ButtonStyle(
-                              padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(horizontal: 30, vertical: 10)),
-                              backgroundColor: MaterialStateProperty.all<Color>(Colors.black87),
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(Constants.cornRad),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(horizontal: 30, vertical: 10)),
+                                backgroundColor: MaterialStateProperty.all<Color>(Colors.black87),
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(Constants.cornRad),
+                                  ),
                                 ),
                               ),
-                            ),
-                            child: Text(
-                              'Reset',
-                              style: TextStyle(color: Colors.white, fontSize: 20),
-                            ),
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                setState(() => Constants.loading = true);
-                                dynamic result = await _auth.resetPasswordNotLogged(email);
-                                if (result == null) {
-                                  setState(() => message = 'Impossible to reset password for this account');
-                                } else {
-                                  setState(() => message = 'Check your email to reset your password');
+                              child: Text(
+                                'Reset',
+                                style: TextStyle(color: Colors.white, fontSize: 20),
+                              ),
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  setState(() => Constants.loading = true);
+                                  await _auth.resetPasswordNotLogged(email);
+                                    setState(() => message = 'Check your email to reset your password');
                                 }
-                                // TODO reset password
-                              }
-                            }),
+                              }),
+                        ),
                       ),
                       SizedBox(width: 20),
                     ],

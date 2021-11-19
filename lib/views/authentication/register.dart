@@ -16,11 +16,15 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
+  var controlFirstName = TextEditingController();
+  var controlLastName = TextEditingController();
   var controlEmail = TextEditingController();
   var controlPassword1 = TextEditingController();
   var controlPassword2 = TextEditingController();
   bool obscurePassword1 = true;
   bool obscurePassword2 = true;
+  String firstName = '';
+  String lastName = '';
   String email = '';
   String password1 = '';
   String password2 = '';
@@ -37,17 +41,6 @@ class _RegisterState extends State<Register> {
             body: Column(
               children: [
                 SizedBox(height: 100),
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage('assets/images/logo.png'),
-                    ),
-                  ),
-                ),
                 SizedBox(height: 30),
                 Text(
                   'Register',
@@ -64,6 +57,36 @@ class _RegisterState extends State<Register> {
                     key: _formKey,
                     child: Column(
                       children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                controller: controlFirstName,
+                                decoration: Constants.textInputDecoration.copyWith(
+                                  hintText: 'first name',
+                                ),
+                                validator: (val) => val!.isEmpty ? 'Enter a first name.' : null,
+                                onChanged: (val) {
+                                  setState(() => firstName = val);
+                                },
+                              ),
+                            ),
+                            SizedBox(width: 20),
+                            Expanded(
+                              child: TextFormField(
+                                controller: controlLastName,
+                                decoration: Constants.textInputDecoration.copyWith(
+                                  hintText: 'last name',
+                                ),
+                                validator: (val) => val!.isEmpty ? 'Enter a last name.' : null,
+                                onChanged: (val) {
+                                  setState(() => lastName = val);
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20),
                         TextFormField(
                           controller: controlEmail,
                           decoration: Constants.textInputDecoration.copyWith(
@@ -126,7 +149,7 @@ class _RegisterState extends State<Register> {
                               child: TextFormField(
                                 controller: controlPassword2,
                                 decoration: Constants.textInputDecoration.copyWith(
-                                  hintText: 'password',
+                                  hintText: 'repeat password',
                                   suffixIcon: password2.isNotEmpty
                                       ? IconButton(
                                           onPressed: () => setState(() {

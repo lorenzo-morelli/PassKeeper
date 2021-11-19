@@ -36,10 +36,7 @@ class _HomeState extends State<Home> {
         body: Column(
           children: [
             SizedBox(height: 50),
-            Container(
-              alignment: Alignment.bottomRight,
-              child: DropDownMenu(),
-            ),
+            Container(alignment: Alignment.centerRight, child: DropDownMenu()),
             SizedBox(height: 25),
             AppName(),
             Container(
@@ -68,21 +65,12 @@ class _HomeState extends State<Home> {
             SearchWidget(
               text: query,
               onChanged: (val) => searchAccount,
-                  // DatabaseService(_auth.getUid()).searchQuery(accounts, query), //searchAccount,
+              // DatabaseService(_auth.getUid()).searchQuery(accounts, query), //searchAccount,
               hintText: 'search...',
             ),
             Expanded(
               child: true ? AccountList(accounts: accounts) : Text('Nothing found :('),
             ),
-            // TextButton(
-            //   child: Text('add account'),
-            //   onPressed: () {
-            //     // DatabaseService(_auth.getUid()).addUser('Lorenzo', 'Morelli');
-            //     // for (Account account in accounts){
-            //     //   DatabaseService(_auth.getUid()).addAccount(account);
-            //     // }
-            //   },
-            // ),
           ],
         ),
         floatingActionButton: FloatingActionButton(
