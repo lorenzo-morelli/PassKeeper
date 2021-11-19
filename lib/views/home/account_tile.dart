@@ -46,7 +46,7 @@ class AccountTile extends StatelessWidget {
                     //backgroundColor: Colors.transparent,
                     context: context,
                     builder: (context) {
-                      return SettingsForm(index: index);
+                      return SettingsForm(index: index, account: account);
                     }),
               ),
             ],
