@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       initialData: null,
       child: DismissKeyboard(
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           theme: Constants.theme,
           home: Wrapper(),
         ),

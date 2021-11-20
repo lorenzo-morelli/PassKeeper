@@ -1,7 +1,7 @@
 import 'package:encrypt/encrypt.dart' as kay;
 import 'package:encrypt/encrypt.dart';
-import 'package:flutter/material.dart' as flut;
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as flut;
 import 'package:passkeeper/models/account.dart';
 import 'package:passkeeper/services/auth.dart';
 import 'package:passkeeper/services/database.dart';
@@ -97,6 +97,28 @@ class _SettingsFormState extends State<SettingsForm> {
                       DatabaseService(_auth.getUid()).updateAccount(widget.account.site, username, password);
                       Navigator.of(context).pop();
                     },
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.delete, color: Colors.red, size: 20),
+                      TextButton(
+                        onPressed: () {
+                          DatabaseService(_auth.getUid()).deleteAccount(widget.account.site);
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          'Delete account',
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: '',
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

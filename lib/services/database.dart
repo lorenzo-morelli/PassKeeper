@@ -38,6 +38,10 @@ class DatabaseService {
     });
   }
 
+  void deleteAccount(String site) async {
+    accountsColl.doc(site).delete();
+  }
+
   Stream<List<Account>> get accounts {
     return accountsColl.snapshots().map((snap) => _accountListFromSnapshot(snap));
   }

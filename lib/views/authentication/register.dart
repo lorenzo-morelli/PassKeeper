@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:passkeeper/models/my_user.dart';
 import 'package:passkeeper/services/auth.dart';
 import 'package:passkeeper/services/database.dart';
 import 'package:passkeeper/shared/constants.dart';
@@ -203,6 +204,7 @@ class _RegisterState extends State<Register> {
                                   Constants.loading = false;
                                 });
                               }
+                              DatabaseService(_auth.getUid()).addUser(UserData(_auth.getUid(),firstName, lastName));
                               result = await _auth.verifyEmail();
                             }
                           },
