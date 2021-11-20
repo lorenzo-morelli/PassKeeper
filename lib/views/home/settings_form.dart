@@ -1,14 +1,17 @@
+import 'package:encrypt/encrypt.dart' as kay;
+import 'package:encrypt/encrypt.dart';
+import 'package:flutter/material.dart' as flut;
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:passkeeper/models/account.dart';
 import 'package:passkeeper/services/auth.dart';
 import 'package:passkeeper/services/database.dart';
+import 'package:passkeeper/services/encryption/encryption_contract.dart';
+import 'package:passkeeper/services/encryption/encryption_service.dart';
 import 'package:passkeeper/shared/constants.dart';
 import 'package:provider/provider.dart';
 
 class SettingsForm extends StatefulWidget {
-  const SettingsForm({Key? key, required this.account, required this.index}) : super(key: key);
+  const SettingsForm({flut.Key? key, required this.account, required this.index}) : super(key: key);
   final int index;
   final Account account;
 
@@ -31,6 +34,7 @@ class _SettingsFormState extends State<SettingsForm> {
 
   @override
   Widget build(BuildContext context) {
+    IEncryption sut = EncryptionService(Encrypter(AES(kay.Key.fromLength(32))));
     return StreamProvider<List<Account>>.value(
       initialData: const [],
       value: DatabaseService(_auth.getUid()).accounts,
@@ -68,7 +72,7 @@ class _SettingsFormState extends State<SettingsForm> {
                   ),
                   SizedBox(height: 10.0),
                   TextFormField(
-                    initialValue: widget.account.password,
+                    initialValue: sut.decrypt(widget.account.password),
                     decoration: Constants.textInputDecoration.copyWith(
                       hintText: 'Password',
                     ),

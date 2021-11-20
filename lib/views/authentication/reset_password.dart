@@ -82,7 +82,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 if (_formKey.currentState!.validate()) {
                                   setState(() => Constants.loading = true);
                                   await _auth.resetPasswordNotLogged(email);
-                                    setState(() => message = 'Check your email to reset your password');
+                                  setState(() => message = 'Check your email to reset your password');
                                 }
                               }),
                         ),

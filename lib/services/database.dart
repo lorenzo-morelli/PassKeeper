@@ -1,25 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:encrypt/encrypt.dart';
 import 'package:passkeeper/models/account.dart';
 import 'package:passkeeper/models/my_user.dart';
-import 'package:uuid/uuid.dart';
+import 'encryption/encryption_contract.dart';
+import 'encryption/encryption_service.dart';
 
 class DatabaseService {
   final String uid;
   CollectionReference usersColl = FirebaseFirestore.instance.collection('users');
   late CollectionReference accountsColl = FirebaseFirestore.instance.collection('users/$uid/accounts');
+  IEncryption sut = EncryptionService(Encrypter(AES(Key.fromLength(32))));
 
   DatabaseService(this.uid);
 
   Future addAccount(Account account) async {
-    return accountsColl
-        .doc(account.site)
-        .set({
-          'site': account.site,
-          'username': account.username,
-          'password': account.password,
-        })
-        .then((val) => print('account added'))
-        .catchError((error) => print('failed to add user: $error'));
+    final encrPassword = sut.encrypt(account.password);
+    return accountsColl.doc(account.site).set({
+      'site': account.site,
+      'username': account.username,
+      'password': encrPassword,
+    });
   }
 
   Future addUser(UserData user) async {
@@ -30,15 +30,16 @@ class DatabaseService {
   }
 
   Future updateAccount(String? site, String? username, String? password) {
+    final encrPassword = sut.encrypt(password!);
     return accountsColl.doc(site).set({
       'site': site,
       'username': username,
-      'password': password,
+      'password': encrPassword,
     });
   }
 
   Stream<List<Account>> get accounts {
-    return accountsColl.snapshots().map(_accountListFromSnapshot);
+    return accountsColl.snapshots().map((snap) => _accountListFromSnapshot(snap));
   }
 
   List<Account> _accountListFromSnapshot(QuerySnapshot snapshot) {
@@ -46,9 +47,13 @@ class DatabaseService {
         .map((doc) => Account(
               doc.get('site') ?? '',
               doc.get('username') ?? '',
-              doc.get('password') ?? '',
+              doc.get('password'),
             ))
         .toList();
+  }
+
+  Stream<List<Account>> accountsWithQuery(String query) {
+    return accountsColl.snapshots().map((snap) => searchQuery(snap, query));
   }
 
   List<Account> searchQuery(QuerySnapshot snapshot, String query) {

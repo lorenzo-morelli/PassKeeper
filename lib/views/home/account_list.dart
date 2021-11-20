@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:passkeeper/models/account.dart';
 import 'package:passkeeper/views/home/account_tile.dart';
-import 'package:provider/provider.dart';
 
 class AccountList extends StatefulWidget {
   const AccountList({Key? key, required this.accounts}) : super(key: key);
