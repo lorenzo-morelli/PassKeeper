@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:passkeeper/models/account.dart';
 
 class Constants {
   static const double cornRad = 30;
@@ -48,11 +46,6 @@ class Constants {
     Colors.blueGrey,
     Colors.brown,
     Colors.black,
-  ];
-
-  static List<Account> allAccounts = <Account>[
-    Account('instagram', 'morel', 'pass'),
-    Account.withColor('facebook', 'andre', 'ciao', Colors.red),
   ];
 
   static ThemeData theme = ThemeData(

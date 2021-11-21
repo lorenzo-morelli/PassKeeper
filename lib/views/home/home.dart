@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:passkeeper/models/account.dart';
 import 'package:passkeeper/services/auth.dart';
 import 'package:passkeeper/services/database.dart';
-import 'package:passkeeper/shared/constants.dart';
 import 'package:passkeeper/widgets/search_widget.dart';
 import 'package:provider/provider.dart';
 import 'account_list.dart';
@@ -63,7 +62,6 @@ class _HomeState extends State<Home> {
             SearchWidget(
               text: query,
               onChanged: (val) => searchAccount,
-              // DatabaseService(_auth.getUid()).searchQuery(accounts, query), //searchAccount,
               hintText: 'search...',
             ),
             Expanded(
@@ -87,22 +85,5 @@ class _HomeState extends State<Home> {
     setState(() {
       this.query = query;
     });
-    print(this.query);
   }
-
-// void dropDownSortBy(BuildContext context, int item, List<Account> accounts) {
-//   switch (item) {
-//     case 0:
-//       setState(() {
-//         this.accounts = accounts;
-//       });
-//       break;
-//     case 1:
-//       setState(() {
-//         this.accounts = accounts;
-//       });
-//       break;
-//   }
-// }
-
 }

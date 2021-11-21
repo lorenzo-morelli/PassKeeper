@@ -73,12 +73,12 @@ class _SettingsFormState extends State<SettingsForm> {
                       hintText: 'username',
                       suffixIcon: username.isNotEmpty
                           ? IconButton(
-                        onPressed: () => setState(() {
-                          controlUsername.clear();
-                          username = '';
-                        }),
-                        icon: Icon(Icons.close, color: Colors.grey),
-                      )
+                              onPressed: () => setState(() {
+                                controlUsername.clear();
+                                username = '';
+                              }),
+                              icon: Icon(Icons.close, color: Colors.grey),
+                            )
                           : null,
                     ),
                     validator: (val) => val!.isEmpty ? 'Enter email' : null,
