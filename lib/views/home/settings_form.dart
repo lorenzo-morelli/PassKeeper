@@ -20,21 +20,25 @@ class SettingsForm extends StatefulWidget {
 }
 
 class _SettingsFormState extends State<SettingsForm> {
-  final controller = TextEditingController();
+  var controlUsername = TextEditingController();
+  var controlPassword = TextEditingController();
   final AuthService _auth = AuthService();
   String username = '';
   String password = '';
+  var obscurePassword = true;
 
   @override
   void initState() {
     setState(() => username = widget.account.username);
     setState(() => password = widget.account.password);
+    IEncryption sut = EncryptionService(Encrypter(AES(kay.Key.fromLength(32))));
+    setState(() => controlUsername = TextEditingController(text: widget.account.username));
+    setState(() => controlPassword = TextEditingController(text: sut.decrypt(widget.account.password)));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    IEncryption sut = EncryptionService(Encrypter(AES(kay.Key.fromLength(32))));
     return StreamProvider<List<Account>>.value(
       initialData: const [],
       value: DatabaseService(_auth.getUid()).accounts,
@@ -64,19 +68,59 @@ class _SettingsFormState extends State<SettingsForm> {
                   ),
                   SizedBox(height: 20.0),
                   TextFormField(
-                    initialValue: widget.account.username,
+                    controller: controlUsername,
                     decoration: Constants.textInputDecoration.copyWith(
                       hintText: 'username',
+                      suffixIcon: username.isNotEmpty
+                          ? IconButton(
+                        onPressed: () => setState(() {
+                          controlUsername.clear();
+                          username = '';
+                        }),
+                        icon: Icon(Icons.close, color: Colors.grey),
+                      )
+                          : null,
                     ),
-                    onChanged: (val) => setState(() => username = val),
+                    validator: (val) => val!.isEmpty ? 'Enter email' : null,
+                    onChanged: (val) {
+                      setState(() => username = val);
+                    },
                   ),
                   SizedBox(height: 10.0),
-                  TextFormField(
-                    initialValue: sut.decrypt(widget.account.password),
-                    decoration: Constants.textInputDecoration.copyWith(
-                      hintText: 'Password',
-                    ),
-                    onChanged: (val) => setState(() => password = val),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: controlPassword,
+                          decoration: Constants.textInputDecoration.copyWith(
+                            hintText: 'password',
+                            suffixIcon: password.isNotEmpty
+                                ? IconButton(
+                                    onPressed: () => setState(() {
+                                      controlPassword.clear();
+                                      password = '';
+                                    }),
+                                    icon: Icon(Icons.close, color: Colors.grey),
+                                  )
+                                : null,
+                          ),
+                          validator: (val) => val!.isEmpty ? 'Enter password' : null,
+                          obscureText: obscurePassword,
+                          onChanged: (val) {
+                            setState(() => password = val);
+                          },
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      GestureDetector(
+                        child: obscurePassword
+                            ? Icon(Icons.visibility, color: Colors.black54)
+                            : Icon(Icons.visibility_off, color: Colors.black54),
+                        onTap: () => setState(() {
+                          obscurePassword = !obscurePassword;
+                        }),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 30),
                   TextButton(

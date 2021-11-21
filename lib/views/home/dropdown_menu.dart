@@ -24,7 +24,7 @@ class DropDownMenu extends StatelessWidget {
         ),
         PopupMenuItem(
           value: 1,
-          child: Container(child: Text('Change password'), alignment: Alignment.center),
+          child: Container(child: Text('Reset password'), alignment: Alignment.center),
         ),
         PopupMenuItem(
           value: 2,
@@ -37,6 +37,14 @@ class DropDownMenu extends StatelessWidget {
 
 Future<void> dropDownSettings(BuildContext context, int item) async {
   switch (item) {
+    case 1:
+      await _auth.resetPasswordNotLogged(_auth.getEmail()!);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Reset password email sent'),
+        )
+      );
+      break;
     case 2:
       showDialog(
         context: context,

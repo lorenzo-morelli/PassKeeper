@@ -56,6 +56,11 @@ class AuthService {
     return user!.uid;
   }
 
+  String? getEmail() {
+    User? user = _auth.currentUser;
+    return user!.email;
+  }
+
   Future verifyEmail() async {
     User? user = _auth.currentUser;
     user!.sendEmailVerification();
