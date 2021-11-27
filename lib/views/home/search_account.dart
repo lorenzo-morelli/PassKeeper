@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 import 'account_list.dart';
 
 class SearchAccount extends StatefulWidget {
-  const SearchAccount({Key? key}) : super(key: key);
+  const SearchAccount({Key? key, required this.order}) : super(key: key);
+  final bool order;
 
   @override
   _SearchAccountState createState() => _SearchAccountState();

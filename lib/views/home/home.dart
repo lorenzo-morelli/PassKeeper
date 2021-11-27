@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'add_accounts.dart';
 import 'dropdown_menu.dart';
 import 'title.dart';
-import 'dart:math' as math;
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
@@ -21,6 +20,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
   String query = '';
+  bool order = true;
 
   @override
   Widget build(BuildContext context) {
@@ -29,36 +29,24 @@ class _HomeState extends State<Home> {
       value: FirebaseFirestore.instance
           .collection('users/${_auth.getUid()}/accounts')
           .snapshots()
-          .map((snap) => DatabaseService(_auth.getUid()).accountListFromSnapshot(snap, query)),
+          .map((snap) => DatabaseService(_auth.getUid()).accountListFromSnapshot(snap, query, order)),
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         body: Column(
           children: [
-            SizedBox(height: 50),
+            SizedBox(height: 30),
             Container(alignment: Alignment.centerRight, child: DropDownMenu()),
-            SizedBox(height: 25),
+            SizedBox(height: 15),
             AppName(),
             Container(
+              padding: EdgeInsets.only(right: 25, bottom: 10, top: 10),
               alignment: Alignment.centerRight,
-              child: PopupMenuButton<int>(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
+              child: GestureDetector(
+                child: RotatedBox(
+                  quarterTurns: order ? 0 : 2,
+                  child: Icon(Icons.sort, textDirection: order ? TextDirection.rtl : null),
                 ),
-                icon: Transform(
-                  transform: Matrix4.rotationY(math.pi),
-                  child: Icon(Icons.sort),
-                ),
-                onSelected: (item) => {}, //dropDownSortBy(context, item, accounts),
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    value: 0,
-                    child: Text('Alphabetical order A-Z'),
-                  ),
-                  PopupMenuItem(
-                    value: 1,
-                    child: Text('Alphabetical order Z-A'),
-                  )
-                ],
+                onTap: () => setState(() => (order = !order)),
               ),
             ),
             SearchWidget(
@@ -66,7 +54,7 @@ class _HomeState extends State<Home> {
               onChanged: (val) => searchAccount(val),
               hintText: 'search...',
             ),
-            SearchAccount(),
+            SearchAccount(order: order),
           ],
         ),
         floatingActionButton: FloatingActionButton(

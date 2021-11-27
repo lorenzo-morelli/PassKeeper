@@ -12,11 +12,16 @@ class DatabaseService {
   late CollectionReference accountsColl = FirebaseFirestore.instance.collection('users/$uid/accounts');
   IEncryption sut = EncryptionService(Encrypter(AES(kay.Key.fromLength(32))));
   String query = '';
+  bool order = true;
 
   DatabaseService(this.uid);
 
   void setQuery(String query) {
     this.query = query;
+  }
+
+  void setOrder(bool order) {
+    this.order = order;
   }
 
   Future addAccount(Account account) async {
@@ -49,12 +54,12 @@ class DatabaseService {
   }
 
   Stream<List<Account>> get accounts {
-    return accountsColl.snapshots().map((snap) => accountListFromSnapshot(snap, query));
+    return accountsColl.snapshots().map((snap) => accountListFromSnapshot(snap, query, order));
   }
 
-  List<Account> accountListFromSnapshot(QuerySnapshot snapshot, String query) {
+  List<Account> accountListFromSnapshot(QuerySnapshot snapshot, String query, bool order) {
     this.query = query;
-    return snapshot.docs
+    var accounts = snapshot.docs
         .map((doc) => Account(
               doc.get('site') ?? '',
               doc.get('username') ?? '',
@@ -66,5 +71,12 @@ class DatabaseService {
       final searchLower = query.toLowerCase();
       return siteLower.contains(searchLower);
     }).toList();
+
+    if (order) {
+      accounts.sort;
+    } else {
+      accounts = List.from(accounts.reversed);
+    }
+    return accounts;
   }
 }
