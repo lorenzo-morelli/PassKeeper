@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:encrypt/encrypt.dart' as kay;
 import 'package:encrypt/encrypt.dart';
 import 'package:passkeeper/models/account.dart';
 import 'package:passkeeper/models/my_user.dart';
@@ -9,9 +10,14 @@ class DatabaseService {
   final String uid;
   CollectionReference usersColl = FirebaseFirestore.instance.collection('users');
   late CollectionReference accountsColl = FirebaseFirestore.instance.collection('users/$uid/accounts');
-  IEncryption sut = EncryptionService(Encrypter(AES(Key.fromLength(32))));
+  IEncryption sut = EncryptionService(Encrypter(AES(kay.Key.fromLength(32))));
+  String query = '';
 
   DatabaseService(this.uid);
+
+  void setQuery(String query) {
+    this.query = query;
+  }
 
   Future addAccount(Account account) async {
     final encrPassword = sut.encrypt(account.password);
@@ -43,32 +49,20 @@ class DatabaseService {
   }
 
   Stream<List<Account>> get accounts {
-    return accountsColl.snapshots().map((snap) => _accountListFromSnapshot(snap));
+    return accountsColl.snapshots().map((snap) => accountListFromSnapshot(snap, query));
   }
 
-  List<Account> _accountListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.docs
-        .map((doc) => Account(
-              doc.get('site') ?? '',
-              doc.get('username') ?? '',
-              doc.get('password'),
-            ))
-        .toList();
-  }
-
-  Stream<List<Account>> accountsWithQuery(String query) {
-    return accountsColl.snapshots().map((snap) => searchQuery(snap, query));
-  }
-
-  List<Account> searchQuery(QuerySnapshot snapshot, String query) {
+  List<Account> accountListFromSnapshot(QuerySnapshot snapshot, String query) {
+    this.query = query;
     return snapshot.docs
         .map((doc) => Account(
               doc.get('site') ?? '',
               doc.get('username') ?? '',
               doc.get('password') ?? '',
             ))
-        .where((account) {
-      final siteLower = account.site.toLowerCase();
+        .toList()
+        .where((acc) {
+      final siteLower = acc.site.toLowerCase();
       final searchLower = query.toLowerCase();
       return siteLower.contains(searchLower);
     }).toList();

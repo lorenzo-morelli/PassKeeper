@@ -1,17 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:passkeeper/models/account.dart';
 import 'package:passkeeper/services/auth.dart';
 import 'package:passkeeper/services/database.dart';
+import 'package:passkeeper/views/home/search_account.dart';
 import 'package:passkeeper/widgets/search_widget.dart';
 import 'package:provider/provider.dart';
-import 'account_list.dart';
 import 'add_accounts.dart';
 import 'dropdown_menu.dart';
 import 'title.dart';
 import 'dart:math' as math;
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  Home({Key? key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -19,15 +20,16 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
-  late List<Account> accounts;
   String query = '';
 
   @override
   Widget build(BuildContext context) {
-    accounts = Provider.of<List<Account>>(context);
     return StreamProvider<List<Account>>.value(
-      value: DatabaseService(_auth.getUid()).accounts,
       initialData: const [],
+      value: FirebaseFirestore.instance
+          .collection('users/${_auth.getUid()}/accounts')
+          .snapshots()
+          .map((snap) => DatabaseService(_auth.getUid()).accountListFromSnapshot(snap, query)),
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         body: Column(
@@ -61,12 +63,10 @@ class _HomeState extends State<Home> {
             ),
             SearchWidget(
               text: query,
-              onChanged: (val) => searchAccount,
+              onChanged: (val) => searchAccount(val),
               hintText: 'search...',
             ),
-            Expanded(
-              child: true ? AccountList(accounts: accounts) : Text('Nothing found :('),
-            ),
+            SearchAccount(),
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -82,6 +82,7 @@ class _HomeState extends State<Home> {
   }
 
   void searchAccount(String query) {
+    DatabaseService(_auth.getUid()).setQuery(query);
     setState(() {
       this.query = query;
     });
