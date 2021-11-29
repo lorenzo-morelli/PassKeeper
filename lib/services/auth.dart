@@ -1,8 +1,12 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:passkeeper/models/my_user.dart';
+import 'package:passkeeper/services/database.dart';
 import 'package:passkeeper/shared/constants.dart';
 
 class AuthService {
@@ -46,9 +50,15 @@ class AuthService {
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
+
     UserCredential result = await FirebaseAuth.instance.signInWithCredential(credential);
     User? user = result.user;
-    return _userOfFirebase(user!);
+    final name = user!.displayName.toString();
+    var parts = name.split(' ');
+    var firstName = parts[0].trim();
+    var lastName = parts[1].trim();
+    DatabaseService(user.uid).addUser(UserData(user.uid, firstName, lastName));
+    return _userOfFirebase(user);
   }
 
   String getUid() {
@@ -92,6 +102,35 @@ class AuthService {
       return await _auth.signOut();
     } catch (e) {
       return null;
+    }
+  }
+}
+
+class LocalAuthApi {
+  static final _auth = LocalAuthentication();
+
+  static Future<bool> hasBiometrics() async {
+    try {
+      return await _auth.canCheckBiometrics;
+    } on PlatformException catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  static Future<bool> authenticate() async {
+    final isAvailable = await hasBiometrics();
+    if (!isAvailable) return false;
+
+    try {
+      return await _auth.authenticate(
+        localizedReason: 'Scan Fingerprint to Authenticate',
+        useErrorDialogs: true,
+        stickyAuth: true,
+      );
+    } on PlatformException catch (e) {
+      print(e);
+      return false;
     }
   }
 }
