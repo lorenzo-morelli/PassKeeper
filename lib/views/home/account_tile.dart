@@ -19,23 +19,24 @@ class AccountTile extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 30),
       child: Card(
+        elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
-            bottomLeft: Radius.circular(20),
           ),
         ),
         margin: EdgeInsets.only(bottom: 15),
         child: ListTile(
-          isThreeLine: true,
+          isThreeLine: account.username.isNotEmpty ? true : false,
           leading: CircleAvatar(
-            radius: 25.0,
+            radius: 20.0,
             backgroundColor: account.color,
           ),
-          title: Text(account.site,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400)),
-          subtitle: Text(
-              'Username: ${account.username}\nPassword: ${sut.decrypt(account.password)}'),
+          title: Text(account.site, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400)),
+          subtitle: Text(account.username.isNotEmpty
+              ? 'Username: ${account.username}\nPassword: ${sut.decrypt(account.password)}'
+              : 'Password: ${sut.decrypt(account.password)}'),
           trailing: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

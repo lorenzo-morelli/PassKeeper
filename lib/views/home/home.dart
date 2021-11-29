@@ -54,7 +54,7 @@ class _HomeState extends State<Home> {
               onChanged: (val) => searchAccount(val),
               hintText: 'search...',
             ),
-            SearchAccount(order: order),
+            SearchAccount(),
           ],
         ),
         floatingActionButton: FloatingActionButton(
