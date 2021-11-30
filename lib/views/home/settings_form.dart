@@ -7,13 +7,15 @@ import 'package:passkeeper/services/auth.dart';
 import 'package:passkeeper/services/database.dart';
 import 'package:passkeeper/services/encryption/encryption_contract.dart';
 import 'package:passkeeper/services/encryption/encryption_service.dart';
+import 'package:passkeeper/shared/colors_table.dart';
 import 'package:passkeeper/shared/constants.dart';
+import 'package:passkeeper/shared/tocolor_extension.dart';
 import 'package:provider/provider.dart';
 
 class SettingsForm extends StatefulWidget {
   const SettingsForm({flut.Key? key, required this.account, required this.index}) : super(key: key);
-  final int index;
   final Account account;
+  final int index;
 
   @override
   _SettingsFormState createState() => _SettingsFormState();
@@ -25,13 +27,15 @@ class _SettingsFormState extends State<SettingsForm> {
   final AuthService _auth = AuthService();
   String username = '';
   String password = '';
+  String color = '';
   var obscurePassword = true;
 
   @override
   void initState() {
-    setState(() => username = widget.account.username);
-    setState(() => password = widget.account.password);
     IEncryption sut = EncryptionService(Encrypter(AES(kay.Key.fromLength(32))));
+    setState(() => username = widget.account.username);
+    setState(() => password = sut.decrypt(widget.account.password));
+    setState(() => color = widget.account.color);
     setState(() => controlUsername = TextEditingController(text: widget.account.username));
     setState(() => controlPassword = TextEditingController(text: sut.decrypt(widget.account.password)));
     super.initState();
@@ -122,7 +126,13 @@ class _SettingsFormState extends State<SettingsForm> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 10),
+                  ColorsTable(
+                      color: widget.account.color.toColor(),
+                      func: (id) => setState(() => color = Constants.colors[id].toString()),
+                    radius: 16,
+                  ),
+                  SizedBox(height: 18),
                   TextButton(
                     style: ButtonStyle(
                       padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(horizontal: 30, vertical: 10)),
@@ -138,7 +148,7 @@ class _SettingsFormState extends State<SettingsForm> {
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                     onPressed: () {
-                      DatabaseService(_auth.getUid()).updateAccount(widget.account.site, username, password);
+                      DatabaseService(_auth.getUid()).updateAccount(widget.account.site, username, password, color);
                       Navigator.of(context).pop();
                     },
                   ),

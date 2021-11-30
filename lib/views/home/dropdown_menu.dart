@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:passkeeper/services/auth.dart';
 import 'package:passkeeper/shared/constants.dart';
+import 'package:passkeeper/views/authentication/authenticate.dart';
 
+import '../settings.dart';
 import '../wrapper.dart';
 
 final AuthService _auth = AuthService();
@@ -37,6 +39,12 @@ class DropDownMenu extends StatelessWidget {
 
 Future<void> dropDownSettings(BuildContext context, int item) async {
   switch (item) {
+    case 0:
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Settings()),
+      );
+      break;
     case 1:
       await _auth.resetPasswordNotLogged(_auth.getEmail()!);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -69,10 +77,12 @@ Future<void> dropDownSettings(BuildContext context, int item) async {
                     onPressed: () async {
                       Navigator.of(context).pop();
                       await _auth.signOut();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Wrapper()),
-                      );
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => Wrapper(),
+                          ),
+                          ModalRoute.withName('/'));
                     },
                   ),
                   TextButton(

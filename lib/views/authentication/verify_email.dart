@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:passkeeper/services/auth.dart';
 import 'package:passkeeper/shared/constants.dart';
 import 'package:passkeeper/shared/loading.dart';
+import 'package:passkeeper/views/home/home.dart';
 
 import '../wrapper.dart';
 
@@ -38,7 +39,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
         timer.cancel();
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Wrapper()),
+          MaterialPageRoute(builder: (context) => Home()),
         );
       }
     });

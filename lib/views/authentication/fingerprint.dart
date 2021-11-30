@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:passkeeper/services/auth.dart';
+import 'package:passkeeper/services/local_auth_api.dart';
 import 'package:passkeeper/shared/constants.dart';
 import 'package:passkeeper/views/home/home.dart';
 

@@ -5,6 +5,7 @@ class Constants {
   static Color? lightGrey = Colors.grey[100];
   static bool withGoogle = false;
   static bool loading = false;
+
   static InputDecoration textInputDecoration = InputDecoration(
     hintText: 'site',
     fillColor: Colors.white,
@@ -30,22 +31,14 @@ class Constants {
     );
 
   static List<Color> colors = [
-    Colors.green,
-    Colors.orange,
-    Colors.blue,
-    Colors.pink,
-    Colors.yellow,
-    Colors.cyanAccent,
-    Colors.purple,
-    Colors.red,
-    Colors.deepOrange,
-    Colors.teal,
-    Colors.indigoAccent,
-    Colors.amber,
-    Colors.cyan,
-    Colors.blueGrey,
-    Colors.brown,
-    Colors.black,
+    Color(0xffc0c0c0), // grey
+    Color(0xffe52b50), // red
+    Color(0xfff28500), // orange
+    Color(0xffffd500), // yellow
+    Color(0xff87cc87), // light green
+    Color(0xff40826d), // green
+    Color(0xff4a6e8c), // blue
+    Color(0xff9370db), // purple
   ];
 
   static ThemeData theme = ThemeData(
@@ -57,4 +50,6 @@ class Constants {
   );
 
   //TODO: colori temi... rosino sul psd, bianchino..., usare solo costanti!
+  static Color defaultColor = Colors.black26;
+
 }

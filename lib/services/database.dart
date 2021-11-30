@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:encrypt/encrypt.dart' as kay;
 import 'package:encrypt/encrypt.dart';
+import 'package:flutter/material.dart';
 import 'package:passkeeper/models/account.dart';
 import 'package:passkeeper/models/my_user.dart';
+import 'package:passkeeper/shared/constants.dart';
 import 'encryption/encryption_contract.dart';
 import 'encryption/encryption_service.dart';
 
@@ -30,6 +32,7 @@ class DatabaseService {
       'site': account.site,
       'username': account.username,
       'password': encrPassword,
+      'color': account.color,
     });
   }
 
@@ -40,17 +43,30 @@ class DatabaseService {
     });
   }
 
-  Future updateAccount(String? site, String? username, String? password) {
+  Future updateAccount(String? site, String? username, String? password, String? color) {
     final encrPassword = sut.encrypt(password!);
     return accountsColl.doc(site).set({
       'site': site,
       'username': username,
       'password': encrPassword,
+      'color': color,
     });
   }
 
   void deleteAccount(String site) async {
     accountsColl.doc(site).delete();
+  }
+
+  void deleteAllAccounts() async {
+    accountsColl.get().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
+  }
+
+  Future deleteUserData() {
+    return usersColl.doc(uid).delete();
   }
 
   Stream<List<Account>> get accounts {
@@ -60,11 +76,7 @@ class DatabaseService {
   List<Account> accountListFromSnapshot(QuerySnapshot snapshot, String query, bool order) {
     this.query = query;
     var accounts = snapshot.docs
-        .map((doc) => Account(
-              doc.get('site') ?? '',
-              doc.get('username') ?? '',
-              doc.get('password') ?? '',
-            ))
+        .map((doc) => Account(doc.get('site') ?? '', doc.get('username') ?? '', doc.get('password') ?? '', doc.get('color') ?? ''))
         .toList()
         .where((acc) {
       final siteLower = acc.site.toLowerCase();
