@@ -5,8 +5,6 @@ import 'package:passkeeper/shared/constants.dart';
 import 'package:passkeeper/shared/loading.dart';
 import 'package:passkeeper/views/home/home.dart';
 
-import '../wrapper.dart';
-
 class VerifyScreen extends StatefulWidget {
   const VerifyScreen({Key? key}) : super(key: key);
 
@@ -18,12 +16,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
   final AuthService _auth = AuthService();
   int time = 60;
   Timer timer = Timer(Duration(seconds: 0), () => {});
-
-  // @override
-  // void dispose() {
-  //   timer.cancel();
-  //   super.dispose();
-  // }
 
   @override
   void initState() {

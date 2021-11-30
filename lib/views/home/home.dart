@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:passkeeper/models/account.dart';
 import 'package:passkeeper/services/auth.dart';
 import 'package:passkeeper/services/database.dart';
-import 'package:passkeeper/views/authentication/fingerprint.dart';
 import 'package:passkeeper/views/home/search_account.dart';
 import 'package:passkeeper/widgets/search_widget.dart';
 import 'package:provider/provider.dart';

@@ -5,7 +5,6 @@ import 'package:passkeeper/views/authentication/authenticate.dart';
 import 'package:passkeeper/views/authentication/verify_email.dart';
 import 'package:provider/provider.dart';
 import 'authentication/fingerprint.dart';
-import 'home/home.dart';
 
 
 class Wrapper extends StatefulWidget {

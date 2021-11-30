@@ -4,8 +4,6 @@ import 'package:passkeeper/services/database.dart';
 import 'package:passkeeper/shared/constants.dart';
 import 'package:passkeeper/views/wrapper.dart';
 
-import 'authentication/authenticate.dart';
-
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
 

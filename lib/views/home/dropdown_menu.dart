@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:passkeeper/services/auth.dart';
 import 'package:passkeeper/shared/constants.dart';
-import 'package:passkeeper/views/authentication/authenticate.dart';
 
 import '../settings.dart';
 import '../wrapper.dart';

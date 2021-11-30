@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:encrypt/encrypt.dart' as kay;
 import 'package:encrypt/encrypt.dart';
-import 'package:flutter/material.dart';
 import 'package:passkeeper/models/account.dart';
 import 'package:passkeeper/models/my_user.dart';
-import 'package:passkeeper/shared/constants.dart';
 import 'encryption/encryption_contract.dart';
 import 'encryption/encryption_service.dart';
 

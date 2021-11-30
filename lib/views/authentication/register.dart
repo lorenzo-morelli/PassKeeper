@@ -4,7 +4,6 @@ import 'package:passkeeper/services/auth.dart';
 import 'package:passkeeper/services/database.dart';
 import 'package:passkeeper/shared/constants.dart';
 import 'package:passkeeper/shared/loading.dart';
-import 'package:passkeeper/views/authentication/verify_email.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key, required this.toggleView}) : super(key: key);
