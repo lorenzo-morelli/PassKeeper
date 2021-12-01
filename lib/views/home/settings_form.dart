@@ -52,7 +52,7 @@ class _SettingsFormState extends State<SettingsForm> {
             height: MediaQuery.of(context).size.height * 0.75,
             padding: EdgeInsets.symmetric(vertical: 40.0, horizontal: 60.0),
             decoration: BoxDecoration(
-              color: Colors.white10,
+              color: widget.account.color.replaceAll('0xff', '0x1f').toColor(),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(Constants.cornRad),
                 topRight: Radius.circular(Constants.cornRad),

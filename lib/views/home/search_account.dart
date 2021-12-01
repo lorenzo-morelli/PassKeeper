@@ -16,7 +16,14 @@ class _SearchAccountState extends State<SearchAccount> {
   Widget build(BuildContext context) {
     List<Account> accounts = Provider.of<List<Account>>(context);
     return Expanded(
-      child: accounts.isNotEmpty ? AccountList(accounts: accounts) : Text('Nothing found :('),
+      child: accounts.isNotEmpty
+          ? AccountList(accounts: accounts)
+          : Column(
+              children: const [
+                SizedBox(height: 32),
+                Text('Nothing found :('),
+              ],
+            ),
     );
   }
 }

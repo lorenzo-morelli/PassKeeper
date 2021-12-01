@@ -83,8 +83,9 @@ class DatabaseService {
     }).toList();
 
     if (order) {
-      accounts.sort;
+      accounts.sort((a, b) => a.site.toUpperCase().compareTo(b.site.toUpperCase()));
     } else {
+      accounts.sort((a, b) => a.site.toUpperCase().compareTo(b.site.toUpperCase()));
       accounts = List.from(accounts.reversed);
     }
     return accounts;

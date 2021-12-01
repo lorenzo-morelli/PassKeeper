@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:passkeeper/models/account.dart';
 import 'package:passkeeper/services/auth.dart';
 import 'package:passkeeper/services/database.dart';
+import 'package:passkeeper/shared/colors_table.dart';
 import 'package:passkeeper/views/home/search_account.dart';
 import 'package:passkeeper/widgets/search_widget.dart';
 import 'package:provider/provider.dart';
@@ -39,13 +42,12 @@ class _HomeState extends State<Home> {
                   SizedBox(height: 15),
                   AppName(),
                   Container(
-                    padding: EdgeInsets.only(right: 25, bottom: 10, top: 10),
                     alignment: Alignment.centerRight,
+                    padding: EdgeInsets.only(right: 25, bottom: 10, top: 10),
                     child: GestureDetector(
-                      child: RotatedBox(
-                        quarterTurns: order ? 0 : 2,
-                        child: Icon(Icons.sort, textDirection: order ? TextDirection.rtl : null),
-                      ),
+                      child: order
+                          ? Icon(FontAwesomeIcons.sortAlphaDown, color: Colors.grey[700])
+                      : Icon(FontAwesomeIcons.sortAlphaDownAlt, color: Colors.grey[700]),
                       onTap: () => setState(() => (order = !order)),
                     ),
                   ),
@@ -57,14 +59,25 @@ class _HomeState extends State<Home> {
                   SearchAccount(),
                 ],
               ),
-              floatingActionButton: FloatingActionButton(
+              floatingActionButton: FloatingActionButton.extended(
+                elevation: 10,
                 onPressed: () => showDialog(
                   context: context,
                   builder: (context) => AddAccount(),
                 ),
                 tooltip: 'Add new account',
-                child: const Icon(Icons.add),
+                icon: Icon(Icons.add),
+
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                ), label: Text('Add account', style: TextStyle(fontFamily: '')),
               ),
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
             ),
           );
   }

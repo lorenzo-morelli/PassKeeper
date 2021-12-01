@@ -178,7 +178,7 @@ class _LoginState extends State<Login> {
             ),
             label: Text(
               'Sign in with Google',
-              style: TextStyle(color: Colors.black, fontSize: 15, fontFamily: 'default'),
+              style: TextStyle(color: Colors.black, fontSize: 15, fontFamily: ''),
             ),
             icon: FaIcon(FontAwesomeIcons.google, color: Colors.red),
             onPressed: () async {

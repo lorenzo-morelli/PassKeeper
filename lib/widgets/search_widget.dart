@@ -27,33 +27,38 @@ class _SearchWidgetState extends State<SearchWidget> {
     final style = widget.text.isEmpty ? styleHint : styleActive;
 
     return Container(
-      height: 42,
-      margin: const EdgeInsets.only(left: 16, bottom: 16, right: 16),
+      height: 45,
+      margin: const EdgeInsets.only(left: 16, bottom: 0, right: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Constants.cornRad),
         color: Colors.white,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 6),
-        child: TextField(
-          controller: controller,
-          decoration: InputDecoration(
-            icon: Icon(Icons.search, color: style.color),
-            suffixIcon: widget.text.isNotEmpty
-                ? GestureDetector(
-              child: Icon(Icons.close, color: style.color),
-              onTap: () {
-                controller.clear();
-                widget.onChanged('');
-              },
-            ) : null,
-            hintText: widget.hintText,
-            hintStyle: style,
-            border: InputBorder.none,
+      child: Material(
+        borderRadius: BorderRadius.circular(Constants.cornRad),
+        elevation: 20,
+        shadowColor: Colors.grey,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16),
+          child: TextField(
+            controller: controller,
+            decoration: InputDecoration(
+              icon: Icon(Icons.search, color: style.color),
+              suffixIcon: widget.text.isNotEmpty
+                  ? GestureDetector(
+                child: Icon(Icons.close, color: style.color),
+                onTap: () {
+                  controller.clear();
+                  widget.onChanged('');
+                },
+              ) : null,
+              hintText: widget.hintText,
+              hintStyle: style,
+              border: InputBorder.none,
+            ),
+            style: style,
+            onChanged: widget.onChanged,
           ),
-          style: style,
-          onChanged: widget.onChanged,
         ),
       ),
     );

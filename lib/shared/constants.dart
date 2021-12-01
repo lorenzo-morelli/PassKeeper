@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Constants {
   static const double cornRad = 30;
@@ -39,6 +40,26 @@ class Constants {
     Color(0xff40826d), // green
     Color(0xff4a6e8c), // blue
     Color(0xff9370db), // purple
+  ];
+
+  static List<String> sites = [
+    'facebook',
+    'instagram',
+    'tiktok',
+    'youtube',
+    'steam',
+    'mail',
+    'spotify'
+  ];
+
+  static List<FaIcon> icons = [
+    FaIcon(FontAwesomeIcons.facebook, color: Colors.white),
+    FaIcon(FontAwesomeIcons.instagram, color: Colors.white),
+    FaIcon(FontAwesomeIcons.tiktok, color: Colors.white),
+    FaIcon(FontAwesomeIcons.youtube, color: Colors.white),
+    FaIcon(FontAwesomeIcons.steam, color: Colors.white),
+    FaIcon(FontAwesomeIcons.envelope, color: Colors.white),
+    FaIcon(FontAwesomeIcons.spotify, color: Colors.white),
   ];
 
   static ThemeData theme = ThemeData(

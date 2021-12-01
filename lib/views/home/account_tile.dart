@@ -3,9 +3,11 @@ import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as flut;
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:passkeeper/models/account.dart';
 import 'package:passkeeper/services/encryption/encryption_contract.dart';
 import 'package:passkeeper/services/encryption/encryption_service.dart';
+import 'package:passkeeper/shared/constants.dart';
 import 'package:passkeeper/shared/constants.dart';
 import 'package:passkeeper/shared/tocolor_extension.dart';
 import 'package:passkeeper/views/home/settings_form.dart';
@@ -31,11 +33,15 @@ class _AccountTileState extends State<AccountTile> {
       child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           child: Card(
-            elevation: 0,
+            shadowColor: widget.account.color.replaceAll('0xff', '0x0f').toColor(),
+            color: widget.account.color.replaceAll('0xff', '0x1f').toColor(),
+            elevation: 5,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),
                 topRight: Radius.circular(20),
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
               ),
             ),
             margin: EdgeInsets.only(bottom: 15),
@@ -44,9 +50,15 @@ class _AccountTileState extends State<AccountTile> {
               leading: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    radius: 20.0,
-                    backgroundColor: widget.account.color.toColor(),
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 20.0,
+                        backgroundColor: widget.account.color.toColor(),
+                      ),
+                      iconAvatar(context),
+                    ],
                   ),
                 ],
               ),
@@ -61,14 +73,14 @@ class _AccountTileState extends State<AccountTile> {
                 child: obscure
                     ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.visibility),
+                  children: [
+                    FaIcon(FontAwesomeIcons.solidEye, size: 19, color: Colors.grey[600]),
                   ],
                 )
                     : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.visibility_off),
+                  children: [
+                    FaIcon(FontAwesomeIcons.solidEyeSlash, size: 19, color: Colors.black87,),
                   ],
                 ),
                 onTap: () => setState(() => obscure = !obscure),
@@ -93,5 +105,13 @@ class _AccountTileState extends State<AccountTile> {
           }),
     );
   }
-}
 
+  Widget iconAvatar(BuildContext context) {
+    for (int i = 0; i < Constants.sites.length; i++) {
+      if (widget.account.site.toLowerCase().contains(Constants.sites[i])) {
+        return Constants.icons[i];
+      }
+    }
+    return SizedBox();
+  }
+}
