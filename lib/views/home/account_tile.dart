@@ -35,7 +35,7 @@ class _AccountTileState extends State<AccountTile> {
           child: Card(
             shadowColor: widget.account.color.replaceAll('0xff', '0x0f').toColor(),
             color: widget.account.color.replaceAll('0xff', '0x1f').toColor(),
-            elevation: 5,
+            elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),
@@ -65,7 +65,7 @@ class _AccountTileState extends State<AccountTile> {
               title: Text(widget.account.site, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400)),
               subtitle: Text(
                   widget.account.username.isNotEmpty
-                      ? 'Username: ${widget.account.username}\n'
+                      ? '${widget.account.username}\n'
                       'Password: ${obscure ? sut.decrypt(widget.account.password).replaceAll(RegExp(r"."), "*") : sut.decrypt(widget.account.password)}'
                       : 'Password: ${obscure ? sut.decrypt(widget.account.password).replaceAll(RegExp(r"."), "*") : sut.decrypt(widget.account.password)}',
                   style: TextStyle(fontSize: 15)),
@@ -80,7 +80,7 @@ class _AccountTileState extends State<AccountTile> {
                     : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    FaIcon(FontAwesomeIcons.solidEyeSlash, size: 19, color: Colors.black87,),
+                    FaIcon(FontAwesomeIcons.solidEyeSlash, size: 19, color: Colors.grey[600]),
                   ],
                 ),
                 onTap: () => setState(() => obscure = !obscure),

@@ -16,7 +16,7 @@ class _AccountListState extends State<AccountList> {
     return ListView(
       padding: EdgeInsets.all(0),
       children: [
-        Container(height: 20),
+        Container(height: 25),
         ListView.builder(
           physics: ScrollPhysics(),
           shrinkWrap: true,
@@ -26,6 +26,7 @@ class _AccountListState extends State<AccountList> {
             return AccountTile(account: widget.accounts[index], index: index);
           },
         ),
+        Container(height: 40),
       ],
     );
   }
