@@ -2,7 +2,6 @@
 *«A safe place to store all your passwords.»*
 
 ## Main features
-
  - Designed app UI/UX with Flutter material package.
  - Authenticated with credentials and Google Sign-In via Google Firebase, with email verification and password reset.
  - Provided backend database to store passwords via Google Firestore.
